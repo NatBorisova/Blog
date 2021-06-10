@@ -1,0 +1,49 @@
+header {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 0;
+  height: 12vh;
+  width: calc(100vw - 100px);
+  background-color: #405559;
+  opacity: 0.9;
+  padding: 0 50px;
+  cursor: pointer;
+  @media (max-width: 425px) {
+    width: calc(100vw - 40px);
+    padding: 0 20px;
+  }
+
+  a {
+    color: #cccfc3;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s ease;
+    background: transparent;
+    border: none;
+    text-decoration: none;
+    padding: 5px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  h1 {
+      display: flex;
+    color: #cccfc3;
+    letter-spacing: 5px;
+    font-size: 43px;
+    margin: 0;
+
+    span {
+      background: url("https://img.icons8.com/windows/65/000000/blogger-b.png") center center no-repeat;
+      filter: invert(91%) sepia(2%) saturate(1065%) hue-rotate(34deg) brightness(92%) contrast(91%);
+      width: 55px;
+      height: 45px;
+      display: block;
+    }
+  }
+
+}

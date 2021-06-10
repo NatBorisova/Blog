@@ -1,0 +1,86 @@
+.registration-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24vh auto;
+
+  form {
+    background-image: linear-gradient(to bottom, #a8b299, #405559);
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px #405559;
+    padding: 40px;
+
+    @media (max-width: 375px) {
+      padding: 40px 10px;
+    }
+
+    .credential {
+      display: flex;
+      align-content: center;
+      justify-content: space-between;
+      margin: 22px 5px;
+    }
+
+    label {
+      padding: 2px 0;
+      margin: 0 5px;
+      color: #ffffff;
+      font-size: 1.8rem;
+    }
+
+    input {
+      border: none;
+      border-radius: 5px;
+      box-shadow: 1px 1px 3px #405559;
+      outline: none;
+      padding: 0 10px;
+      height: 22px;
+    }
+
+    input.ng-touched.ng-invalid {
+      border: solid #692D49 2px;
+    }
+
+    button {
+      background-color: #bcc1a7;
+      color: #0f1025;
+      border-radius: 8px;
+      font-size: 1.8rem;
+      border: 1px solid #405559;
+      cursor: pointer;
+      box-shadow: 2px 2px 5px #405559;
+      transition: 0.3s ease;
+      padding: 5px;
+      margin: 10px 8px;
+      width: calc(100% - 10px);
+
+      &:hover:enabled {
+        transform: scale(0.95, 0.95);
+        box-shadow: 2px 2px 15px #405559;
+      }
+    }
+  }
+
+  span {
+    margin: -10px auto;
+    color: #ffffff;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: 0.3s ease;
+
+    &:hover {
+      text-decoration: underline;
+      transform: scale(1.05, 1.05);
+    }
+  }
+
+  .mistake-description {
+    font-size: 1rem;
+    margin: -18px 0 -17px 83px;
+    color: #692D49;
+  }
+
+  .password .mistake-description {
+    margin-bottom: -8px;
+  }
+}

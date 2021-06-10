@@ -1,0 +1,42 @@
+<div class="registration-form">
+    <form action="" #form="ngForm">
+        <div class="login">
+            <div class="credential">
+                <label for="login">Логин:</label>
+                <input type="text" name="login" id="login" [(ngModel)]="user.login" #login="ngModel" autocomplete="off" required maxLength="20">
+            </div>
+            <div class="mistake-description" *ngIf="login.invalid && (login.dirty || login.touched)">
+                <div *ngIf="login.errors?.required">
+                    Необходимо ввести логин
+                </div>
+                <div *ngIf="login.errors?.maxLength">
+                    Максимальная длина - 20 символов
+                </div>
+            </div>
+        </div>
+        <div class="email">
+            <div class="credential">
+                <label for="email">E-mail:</label>
+                <input type="email" name="email" id="email" [(ngModel)]="user.email" #email="ngModel" autocomplete="off" required email>
+            </div>
+            <div class="mistake-description" *ngIf="email.invalid && (email.dirty || email.touched)">
+                Необходимо ввести e-mail
+            </div>
+        </div>
+        <div class="password">
+            <div class="credential">
+                <label for="password">Пароль:</label>
+                <input type="password" name="password" id="password" [(ngModel)]="user.password" #password="ngModel" autocomplete="off" required pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{8,}">
+            </div>
+            <div class="mistake-description" *ngIf="password.invalid && (password.dirty || password.touched)">
+                <div *ngIf="password.errors?.pattern">
+                    Пароль должен состоять из 8 символов<br>и иметь хотя бы одну букву и цифру
+                </div>
+                <div *ngIf="password.errors?.required">
+                    Необходимо ввести пароль
+                </div>
+            </div>
+        </div>
+        <button [disabled]="!form.valid" (click)="registerUser()">Зарегистрироваться</button>
+    </form>
+</div>
