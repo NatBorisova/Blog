@@ -1,16 +1,16 @@
 <div class="login-form">
     <form action="">
-        <div class="login">
-            <label for="login">Логин</label>
-            <input type="text" name="login" id="login">
+        <div class="email">
+            <label for="email">E-mail:</label>
+            <input type="text" name="email" id="email" [(ngModel)]="email" autocomplete="off">
         </div>
         <div class="password">
-            <label for="password">Пароль</label>
-            <input type="password" name="password" id="password">
+            <label for="password">Пароль:</label>
+            <input type="password" name="password" id="password" [(ngModel)]="password" autocomplete="off">
         </div>
-        <button>Войти</button>
-        <div>
+        <button (click)="loginUser()">Войти</button>
+        <span> Нет аккаунта?
             <a href="/registration">Зарегистрироваться</a>
-        </div>
+        </span>
     </form>
 </div>

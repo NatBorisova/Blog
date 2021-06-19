@@ -1,0 +1,79 @@
+@import "../constants.less";
+
+.tabs_wrapper {
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  padding: 10px;
+  position: relative;
+  box-shadow: 3px 3px 8px @dark-background-color;
+  margin: 130px 40px;
+  background-color: fadeout(@light-background-color, 20%);
+
+  .tab {
+    border-radius: 15px;
+    font-size: 1.7rem;
+    font-weight: 400;
+    width: 120px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: @dark-text-color;
+    user-select: none;
+    transition: all 0.4s;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+
+  input {
+    display: none;
+  }
+
+  .shape {
+    width: 120px;
+    height: 40px;
+    background-image: linear-gradient(to bottom, @light-background-color, @dark-background-color);
+    border-radius: 15px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    opacity: 1;
+    pointer-events: none;
+    transition: all 0.5s;
+  }
+
+  #users:checked {
+    ~.shape {
+      left: 10px;
+    }
+
+    ~.tab[for="users"] {
+      z-index: 1;
+      color: @light-text-color;
+    }
+  }
+
+  #articles:checked {
+    ~.shape {
+      left: 132px;
+    }
+
+    ~.tab[for="articles"] {
+      z-index: 1;
+      color: @light-text-color;
+    }
+  }
+
+  #sections:checked {
+    ~.shape {
+      left: 259px;
+    }
+
+    ~.tab[for="sections"] {
+      z-index: 1;
+      color: @light-text-color;
+    }
+  }
+}

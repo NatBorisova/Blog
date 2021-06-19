@@ -1,3 +1,5 @@
+@import "../constants.less";
+
 .login-form {
   display: flex;
   justify-content: center;
@@ -5,9 +7,9 @@
   margin: 24vh auto;
 
   form {
-    background-image: linear-gradient(to bottom, #a8b299, #405559);
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px #405559;
+    background-image: linear-gradient(to bottom, @light-background-color, @dark-background-color);
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px @dark-background-color;
     padding: 40px;
 
     @media (max-width: 320px) {
@@ -23,26 +25,26 @@
     label {
       padding: 2px 0;
       margin: 0 5px;
-      color: #ffffff;
+      color: @light-text-color;
       font-size: 1.8rem;
     }
 
     input {
       border: none;
       border-radius: 5px;
-      box-shadow: 1px 1px 3px #405559;
+      box-shadow: 1px 1px 3px @dark-background-color;
       outline: none;
       padding: 0 10px;
     }
 
     button {
-      background-color: #bcc1a7;
-      color: #0f1025;
+      background-color: @light-button-color;
+      color: @dark-text-color;
       border-radius: 8px;
       font-size: 1.8rem;
-      border: 1px solid #405559;
+      border: 1px solid @dark-background-color;
       cursor: pointer;
-      box-shadow: 2px 2px 5px #405559;
+      box-shadow: 2px 2px 5px @dark-background-color;
       transition: 0.3s ease;
       padding: 3px;
       margin: 10px 8px;
@@ -50,21 +52,26 @@
 
       &:hover {
         transform: scale(0.95, 0.95);
-        box-shadow: 2px 2px 15px #405559;
+        box-shadow: 2px 2px 15px @dark-background-color;
       }
     }
   }
 
-  a {
-    margin: -10px auto;
-    color: #ffffff;
+  span {
+    display: flex;
+    justify-content: center;
+    color: @light-text-color;
     font-size: 1.4rem;
-    cursor: pointer;
-    text-decoration: none;
-    transition: 0.3s ease;
 
-    &:hover {
-      text-decoration: underline;
+    a {
+      color: @light-text-color;
+      cursor: pointer;
+      transition: 0.3s ease;
+      padding-left: 4px;
+
+      &:hover {
+        color: @link-hover-color;
+      }
     }
   }
 }

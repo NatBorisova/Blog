@@ -1,0 +1,11 @@
+<div class="tabs_wrapper">
+    <input type="radio" name="tabs" id="users" (click)="changeTabName('users')" checked />
+    <label class="tab" for="users">Пользователи</label>
+    <input type="radio" name="tabs" id="articles" (click)="changeTabName('articles')" />
+    <label class="tab" for="articles">Статьи</label>
+    <input type="radio" name="tabs" id="sections" (click)="changeTabName('sections')" />
+    <label class="tab" for="sections">Разделы</label>
+    <span class="shape"></span>
+</div>
+
+<user-table-app *ngIf="tabName==='users'"></user-table-app>

@@ -22,24 +22,22 @@
   }
 
   button {
-    color: #ffffff;
-    background-image: linear-gradient(to bottom, #a8b299, #405559);
+    background-color: #bcc1a7;
+    color: #0f1025;
     border-radius: 8px;
-    padding: 8px 120px;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     border: 1px solid #405559;
     cursor: pointer;
-    margin: 8vh;
     box-shadow: 2px 2px 5px #405559;
     transition: 0.3s ease;
+    padding: 7px;
+    margin: 10px 8px;
+    width: calc(100% - 10px);
+    max-width: 320px;
 
-    &:hover {
+    &:hover:enabled {
       transform: scale(0.95, 0.95);
       box-shadow: 2px 2px 15px #405559;
-    }
-
-    @media (max-width: 375px) {
-      padding: 8px 95px;
     }
   }
 }

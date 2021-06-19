@@ -1,0 +1,94 @@
+@import "../constants.less";
+
+.table-container {
+  margin: -85px 40px 20px;
+
+  .toolbar {
+    background-color: fadeout(@dark-background-color, 20%);
+    border: 1px solid @light-background-color;
+    border-radius: 15px;
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      margin: 10px 8px;
+      height: 24px;
+      width: 24px;
+      filter: invert(72%) sepia(15%) saturate(303%) hue-rotate(42deg) brightness(94%) contrast(93%);
+    }
+
+    .update {
+      background: center center no-repeat url("https://img.icons8.com/material-rounded/24/000000/update-left-rotation.png");
+    }
+
+    .add {
+      background: center center no-repeat url("https://img.icons8.com/material-rounded/24/000000/add-user-male.png");
+    }
+
+    .send-message {
+      background: center center no-repeat url("https://img.icons8.com/material-rounded/24/000000/send-mass-email.png");
+    }
+  }
+
+  table {
+    width: 100%;
+    border-radius: 15px;
+    border-collapse: collapse;
+    overflow: hidden;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: @dark-text-color;
+
+    td {
+      background-color: fadeout(@light-background-color, 30%);
+      border: 1px solid @light-background-color;
+      padding: 6px;
+    }
+
+    th {
+      background-color: fadeout(@dark-background-color, 10%);
+      border: 1px solid @light-background-color;
+      padding: 15px;
+      color: @light-text-color;
+      cursor: pointer;
+      font-weight: 400;
+    }
+
+    tr:nth-of-type(odd) td {
+      background-color: fadeout(@light-background-color, 40%);
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      margin: 0 2px;
+    }
+
+    .change-status{
+        background-color: @error-color;
+        border-radius: 15px;
+        padding: 5px 0;
+        width: calc(100% - 3px);
+        color: @light-button-color;
+    }
+
+    .enabled{
+        background-color: @dark-background-color;
+    }
+
+    .delete {
+      height: 24px;
+      width: 24px;
+      background: center center no-repeat url("https://img.icons8.com/material-rounded/24/000000/delete-sign.png");
+      filter: invert(20%) sepia(7%) saturate(5852%) hue-rotate(281deg) brightness(93%) contrast(87%);
+    }
+
+    .send-message {
+      height: 24px;
+      width: 24px;
+      background: center center no-repeat url("https://img.icons8.com/material-rounded/24/000000/send-mass-email.png");
+      filter: invert(30%) sepia(7%) saturate(1387%) hue-rotate(142deg) brightness(96%) contrast(89%);
+    }
+  }
+}
