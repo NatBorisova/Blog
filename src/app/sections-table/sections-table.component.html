@@ -1,0 +1,19 @@
+<div class="table-container">
+    <div class="toolbar">
+        <button class="update" (click)="updateSections()"></button>
+        <input type="text" name="sectionName" id="sectionName" [(ngModel)]="sectionName" placeholder="Наименование раздела..">
+        <button class="add" (click)="addNewSection()"></button>
+    </div>
+    <table make-sortable>
+        <tr>
+            <th>Раздел</th>
+            <th class="status">Статус</th>
+        </tr>
+        <tr *ngFor="let section of sections">
+            <td>{{section.name}}</td>
+            <td class="status">
+                <button class="approve-status" [ngClass]="{'approved': section.isApproved}" (click)="approveSection(section.objectId)">{{!section.isApproved?"Подтвердить":""}}</button>
+            </td>
+        </tr>
+    </table>
+</div>

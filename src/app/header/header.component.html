@@ -1,10 +1,10 @@
 <header>
     <h1 [routerLink]="[ '/' ]"><span></span>log</h1>
     <div>
-        <a [routerLink]="[ '/administration' ]" *ngIf="isUserAdmin">Администрирование</a>
         <a [routerLink]="[ '/login' ]" *ngIf="!isUserLoggedIn">Вход</a>
         <a [routerLink]="[ '/registration' ]" *ngIf="!isUserLoggedIn">Регистрация</a>
         <span *ngIf="isUserLoggedIn">{{login}}</span>
+        <a [routerLink]="[ '/administration' ]" *ngIf="isUserAdmin">Администрирование</a>
         <a *ngIf="isUserLoggedIn" (click)="logOut()">Выход</a>
     </div>
 </header>

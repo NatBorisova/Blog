@@ -6,9 +6,12 @@ import { AdministrationFormComponent } from './administration-form/administratio
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { ArticlesTableComponent } from './articles-table/articles-table.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { FormatToDatePipe } from './pipes/format.pipe';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
+import { SectionsTableComponent } from './sections-table/sections-table.component';
 import { UserService } from './services/user.service';
 import { UserTableComponent } from './users-table/user-table.component';
 
@@ -19,7 +22,10 @@ import { UserTableComponent } from './users-table/user-table.component';
     RegistrationFormComponent,
     LoginFormComponent,
     AdministrationFormComponent,
-    UserTableComponent
+    UserTableComponent,
+    SectionsTableComponent,
+    ArticlesTableComponent,
+    FormatToDatePipe
   ],
   imports: [
     AppRoutingModule,

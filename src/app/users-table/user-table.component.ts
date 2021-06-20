@@ -13,25 +13,24 @@ import { IUser, UserService } from "../services/user.service";
 export class UserTableComponent {
 
     users: IUser[] = [];
-    tabName = "users";
 
     constructor(private router: Router, private userService: UserService, private administrationService: AdministrationService, private registrationService: RegistrationService) {
-        this.administrationService.getAllUsers().subscribe((v: any) => { this.users = v });
+        this.updateUsers();
     }
 
     deleteUser(objectId: string): void {
         this.administrationService.deleteUser(objectId).subscribe(
-            () => { this.administrationService.getAllUsers().subscribe((v: any) => { this.users = v }) }
+            () => { this.updateUsers() }
         );
     }
 
-    selectAllUsers(): void {
-
+    updateUsers() {
+        this.administrationService.getAllUsers().subscribe((v: any) => { this.users = v });
     }
 
     changeUserStatus(objectId: string, status: string): void {
         this.registrationService.changeUserStatus(objectId, status === "DISABLED" ? "ENABLED" : "DISABLED").subscribe(
-            () => { this.administrationService.getAllUsers().subscribe((v: any) => { this.users = v }) }
+            () => { this.updateUsers() }
         );
     }
 }

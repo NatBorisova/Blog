@@ -1,0 +1,27 @@
+<div class="table-container">
+    <div class="toolbar">
+        <button class="update" (click)="updateArticles()"></button>
+    </div>
+    <table make-sortable>
+        <tr>
+            <th>Дата</th>
+            <th>Заголовок</th>
+            <th>Автор</th>
+            <th>Раздел</th>
+            <th>Статус</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let article of articles">
+            <td>{{article.created | formatToDate}}</td>
+            <td>{{article.title}}</td>
+            <td>{{article.author.login}}</td>
+            <td>{{article.section.name}}</td>
+            <td>
+                <button class="change-status" [ngClass]="{'enabled': !article.isDisabled}" (click)="changeStatus(article.objectId, !article.isDisabled)">{{article.isDisabled?"Не активен":"Активен"}}</button>
+            </td>
+            <td>
+                <button class="delete" (click)="deleteArticle(article.objectId)"></button>
+            </td>
+        </tr>
+    </table>
+</div>

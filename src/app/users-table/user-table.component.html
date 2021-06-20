@@ -1,12 +1,11 @@
 <div class="table-container">
     <div class="toolbar">
-        <button class="update"></button>
+        <button class="update" (click)="updateUsers()"></button>
         <button class="add" [routerLink]="[ '/registration' ]"></button>
         <button class="send-message"></button>
     </div>
-    <table *ngIf="tabName==='users'" make-sortable>
+    <table make-sortable>
         <tr>
-            <!-- <th><input type="checkbox" name="selectAllUsers" id="selectAllUsers" (click)="selectAllUsers()"></th> -->
             <th>Логин</th>
             <th>E-mail</th>
             <th>Последнее посещение</th>
@@ -14,10 +13,9 @@
             <th></th>
         </tr>
         <tr *ngFor="let user of users">
-            <!-- <td><input type="checkbox" name="selectUser" id="selectUser" ></td> -->
             <td>{{user.login}}</td>
             <td>{{user.email}}</td>
-            <td>{{user.lastLogin}}</td>
+            <td>{{user.lastLogin | formatToDate}}</td>
             <td>
                 <button class="change-status" [ngClass]="{'enabled': user.userStatus==='DISABLED'}" (click)="changeUserStatus(user.objectId, user.userStatus)">{{user.userStatus==="DISABLED"?"Не активен":"Активен"}}</button>
             </td>
