@@ -9,10 +9,10 @@ export class AdministrationGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         let isUserAdmin: boolean = false;
-        this.userService.user.subscribe(value => {
-            isUserAdmin = value.isUserAdmin;
+        this.userService.isUserAdmin.subscribe(value => {
+            isUserAdmin = value;
         });
-        
+
         return isUserAdmin;
     }
 }

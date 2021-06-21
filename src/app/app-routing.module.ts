@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdministrationFormComponent } from './administration-form/administration-form.component';
+import { ArticleFormComponent } from './article-form/article-form.component';
+import { ArticleComponent } from './article/article.component';
 import { AdministrationGuard } from './guards/administration-form.guard';
 import { LoginGuard } from './guards/login-form.guard';
 import { LoginFormComponent } from './login-form/login-form.component';
@@ -11,6 +13,8 @@ const routes: Routes = [
   { path: "login", component: LoginFormComponent, canActivate: [LoginGuard]  },
   { path: "registration", component: RegistrationFormComponent },
   { path: 'administration', component: AdministrationFormComponent, canActivate: [AdministrationGuard] },
+  { path: "addArticle", component: ArticleFormComponent },
+  { path: "article", component: ArticleComponent },
   { path: "**", component: PageNotFoundComponent },
 ];
 

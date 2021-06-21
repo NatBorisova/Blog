@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from "@angular/core";
-import { RegistrationService } from "../services/registration.service";
+import { RegistrationService } from "./registration.service";
 import { Router } from "@angular/router";
 import { UserService } from "../services/user.service";
 
@@ -19,14 +19,15 @@ export class RegistrationFormComponent implements OnDestroy {
     isUserAdmin: boolean = false;
 
     constructor(private registrationService: RegistrationService, private router: Router, private userService: UserService) {
-        this.userService.user.subscribe(value => {
-            this.isUserAdmin = value.isUserAdmin;
-        });
+        // this.userService.user.subscribe(value => {
+        //     this.isUserAdmin = value.isUserAdmin;
+        // });
+        this.isUserAdmin = Boolean(localStorage.getItem("isUserAdmin"));
     }
     registerUser() {
         this.registrationService.register(this.login, this.email, this.password).subscribe(
             (registeredUser: any) => {
-                this.registrationService.changeUserStatus(registeredUser.objectId, this.isUserAdmin ? "ENABLED" : "DISABLED").subscribe();
+                this.userService.changeUserStatus(registeredUser.objectId, this.isUserAdmin ? "ENABLED" : "DISABLED").subscribe();
                 if (this.isUserAdmin) {
                     this.router.navigate(["/administration"]);
                 } else {

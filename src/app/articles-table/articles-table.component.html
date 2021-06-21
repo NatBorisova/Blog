@@ -1,6 +1,7 @@
 <div class="table-container">
     <div class="toolbar">
         <button class="update" (click)="updateArticles()"></button>
+        <button class="add" [routerLink]="[ '/' ]"></button>
     </div>
     <table make-sortable>
         <tr>
@@ -13,7 +14,7 @@
         </tr>
         <tr *ngFor="let article of articles">
             <td>{{article.created | formatToDate}}</td>
-            <td>{{article.title}}</td>
+            <td (dblclick)="openArticle(article)">{{article.title}}</td>
             <td>{{article.author.login}}</td>
             <td>{{article.section.name}}</td>
             <td>

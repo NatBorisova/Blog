@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
-import { AuthenticationService } from "../services/authentication.service";
+import { AuthenticationService } from "../login-form/authentication.service";
 import { UserService } from "../services/user.service";
 
 @Component({
@@ -14,21 +14,22 @@ export class HeaderComponent implements OnDestroy {
     isUserLoggedIn: boolean = false;
     isUserAdmin: boolean = false;
     login: string = "";
-    token: string = "";
+    token: string | null = "";
 
     constructor(private userService: UserService, private authenticationService: AuthenticationService, private router: Router) {
         userService.user.subscribe(v => {
-            this.isUserAdmin = v.isUserAdmin;
-            this.isUserLoggedIn = v.token ? true : false;
+            this.isUserLoggedIn = v.login ? true : false;
             this.login = v.login;
-            this.token = v.token;
         });
+        userService.isUserAdmin.subscribe(v => this.isUserAdmin = v);
+        this.token = localStorage.getItem("token");
     }
 
     logOut() {
+        if (!this.token) { return }
         this.authenticationService.logout(this.token).subscribe(
             () => {
-                this.userService.user.next(this.userService.emptyUser());
+                this.userService.user.next(this.userService.createUser());
                 localStorage.removeItem("currentUser");
                 this.router.navigate(["/"]);
             },

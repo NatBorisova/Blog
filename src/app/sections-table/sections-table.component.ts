@@ -1,11 +1,5 @@
 import { Component } from "@angular/core";
-import { AdministrationService } from "../services/administration.service";
-
-export interface ISection {
-    name: string;
-    isApproved: boolean;
-    objectId: string;
-}
+import { ISection, SectionService } from "./sections.service";
 
 @Component({
     selector: "sections-table-app",
@@ -18,23 +12,23 @@ export class SectionsTableComponent {
     sections: ISection[] = [];
     sectionName: string = "";
 
-    constructor(private administrationService: AdministrationService) {
+    constructor(private sectionService: SectionService) {
         this.updateSections();
     }
 
     addNewSection() {
-        this.administrationService.addNewSection(this.sectionName).subscribe(
+        this.sectionService.addNewSection(this.sectionName).subscribe(
             () => this.updateSections(),
             e => console.log(e));
     }
 
     approveSection(objectId: string) {
-        this.administrationService.approveSection(objectId).subscribe(
+        this.sectionService.approveSection(objectId).subscribe(
             () => this.updateSections(),
             e => console.log(e));
     }
 
     updateSections() {
-        this.administrationService.getAllSections().subscribe((v: any) => { this.sections = v; });
+        this.sectionService.getAllSections().subscribe((v: any) => { this.sections = v; });
     }
 }

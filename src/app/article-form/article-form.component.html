@@ -1,0 +1,33 @@
+<div class="article-form-container">
+    <h2>Статья</h2>
+    <div class="title">
+        <label for="title">Заголовок: </label>
+        <input type="text" name="title" id="title" [(ngModel)]="article.title">
+    </div>
+    <div class="section">
+        <label for="section">Раздел: </label>
+        <select id="section" [(ngModel)]="article.section">
+            <option disabled selected></option>
+            <option *ngFor="let section of sections" [ngValue]="section">{{section.name}}</option>
+        </select>
+    </div>
+    <div class="text">
+        <label for="text">Текст: </label>
+        <textarea name="text" id="text" maxlength="500" [(ngModel)]="article.text"></textarea>
+    </div>
+    <div class="canUsersWatch">
+        <label for="canUsersWatch">Пользователи, которые могут просматривать: </label>
+        <select multiple size="3" [(ngModel)]="article.canWatch" id="canUsersWatch">
+            <option *ngFor="let user of users" [ngValue]="user">{{user.login}}</option>
+        </select>
+    </div>
+    <div class="canUsersComment">
+        <label for="canUsersComment">Пользователи, которые могут комментировать: </label>
+        <select multiple size="3" [(ngModel)]="article.canComment" id="canUsersComment">
+            <option *ngFor="let user of users" [ngValue]="user">{{user.login}}</option>
+        </select>
+    </div>
+    <div>
+        <button (click)="addArticle()">Создать</button>
+    </div>
+</div>
