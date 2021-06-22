@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: "registration", component: RegistrationFormComponent },
   { path: 'administration', component: AdministrationFormComponent, canActivate: [AdministrationGuard] },
   { path: "addArticle", component: ArticleFormComponent },
-  { path: "article", component: ArticleComponent },
+  { path: "article/:title", component: ArticleComponent },
   { path: "**", component: PageNotFoundComponent },
 ];
 

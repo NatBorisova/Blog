@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { ArticleFormComponent } from './article-form/article-form.component';
 import { ArticleComponent } from './article/article.component';
 import { ArticlesTableComponent } from './articles-table/articles-table.component';
+import { CommentsComponent } from './comments/comments.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { FormatToDatePipe } from './pipes/format.pipe';
@@ -29,6 +30,7 @@ import { UserTableComponent } from './users-table/user-table.component';
     ArticleComponent,
     ArticlesTableComponent,
     ArticleFormComponent,
+    CommentsComponent,
     FormatToDatePipe
   ],
   imports: [

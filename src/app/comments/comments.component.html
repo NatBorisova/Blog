@@ -1,0 +1,25 @@
+<div class="comment-container">
+    <h3>Комментарии</h3>
+    <div>
+        <div *ngFor="let comment of comments" class="comment">
+            <header>
+                <div>
+                    <a [routerLink]="[ '/' ]">{{comment.author.login}}</a> {{comment.created | formatToDate}}
+                </div>
+                <div class="actions">
+                    <button [ngClass]="{'change-status': true, 'block':!comment.isDisabled}" *ngIf="isUserAdmin" (click)="changeCommentStatus(comment)">{{comment.isDisabled?'Разблокировать':'Заблокировать'}}</button>
+                    <button class="delete" (click)="deleteComment(comment.objectId)"></button>
+                </div>
+            </header>
+            <div class="text">{{comment.isDisabled?'Комментарий заблокирован администратором':comment.text}}</div>
+            <footer>
+            </footer>
+        </div>
+    </div>
+    <div class="new-comment" *ngIf="canUserComment || isUserAdmin">
+        <textarea name="new-comment" id="new-comment" placeholder="Добавить комментарий..." [(ngModel)]="newComment"></textarea>
+        <div>
+            <button (click)="addComment()">Добавить</button>
+        </div>
+    </div>
+</div>

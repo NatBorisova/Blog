@@ -22,7 +22,6 @@ export class ArticleFormComponent {
         canComment: [],
         canWatch: [],
         isDisabled: false,
-        comments: [],
     };
 
     constructor(private sectionService: SectionService, private userService: UserService, private articlesService: ArticlesService, private router: Router) {

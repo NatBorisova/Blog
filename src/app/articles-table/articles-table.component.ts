@@ -30,9 +30,14 @@ export class ArticlesTableComponent {
         );
     }
 
-    openArticle(article:IArticle) {
-        this.router.navigate(["/article", article]);
-     }
+    openArticle(article: IArticle) {
+        this.router.navigate(["/article", article.title], 
+        {
+            queryParams:{
+                'article': JSON.stringify(article)
+            }
+        });
+    }
 
     changeStatus(objectId: string, isDisabled: boolean) {
         this.articlesService.changeStatus(objectId, isDisabled).subscribe(

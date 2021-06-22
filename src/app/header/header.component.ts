@@ -26,6 +26,7 @@ export class HeaderComponent implements OnDestroy {
     }
 
     logOut() {
+        this.userService.isUserAdmin.next(false);
         if (!this.token) { return }
         this.authenticationService.logout(this.token).subscribe(
             () => {
