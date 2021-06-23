@@ -14,7 +14,6 @@ export class HeaderComponent implements OnDestroy {
     isUserLoggedIn: boolean = false;
     isUserAdmin: boolean = false;
     login: string = "";
-    token: string | null = "";
 
     constructor(private userService: UserService, private authenticationService: AuthenticationService, private router: Router) {
         userService.user.subscribe(v => {
@@ -22,16 +21,17 @@ export class HeaderComponent implements OnDestroy {
             this.login = v.login;
         });
         userService.isUserAdmin.subscribe(v => this.isUserAdmin = v);
-        this.token = localStorage.getItem("token");
     }
 
     logOut() {
-        this.userService.isUserAdmin.next(false);
-        if (!this.token) { return }
-        this.authenticationService.logout(this.token).subscribe(
+        let token = localStorage.getItem("token");
+        if (!token) { return }
+        this.authenticationService.logout(token).subscribe(
             () => {
                 this.userService.user.next(this.userService.createUser());
+                this.userService.isUserAdmin.next(false);
                 localStorage.removeItem("currentUser");
+                localStorage.removeItem("token");
                 this.router.navigate(["/"]);
             },
             (error) => {

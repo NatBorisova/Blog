@@ -8,6 +8,7 @@
             <label for="password">Пароль:</label>
             <input type="password" name="password" id="password" [(ngModel)]="password" autocomplete="off">
         </div>
+        <span class="error">{{errorText}}</span>
         <button (click)="loginUser()">Войти</button>
         <span> Нет аккаунта?
             <a href="/registration">Зарегистрироваться</a>

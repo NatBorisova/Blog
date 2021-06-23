@@ -16,21 +16,41 @@ export class UserService {
     public isUserAdmin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(private httpClient: HttpClient) {
-        let userToken = localStorage.getItem("token");
-        if (userToken) {
-            this.getUserRole(userToken).subscribe(
-                (v) => {
-                    this.isUserAdmin.next(Object.values(v).includes('Admin'));
-                },
-                e => console.log(e)
-            );
-        }
+        // let userToken = localStorage.getItem("token");
+        // if (userToken) {
+        //     this.getUserRole(userToken).subscribe(
+        //         (v) => {
+        //             this.isUserAdmin.next(Object.values(v).includes('Admin'));
+        //         },
+        //         e => console.log(e)
+        //     );
+        // }
     }
 
     getCurrentUser(): IUser {
-        let savedUser = localStorage.getItem("currentUser");
-        if (savedUser) {
-            return JSON.parse(savedUser);
+        let userToken = localStorage.getItem("token");
+        if (userToken) {
+            this.isUserTokenValid(userToken).subscribe(
+                (isValid) => {
+                    if (isValid) {
+                        this.getUserRole(userToken?userToken:"").subscribe(
+                            (v) => {
+                                console.log(Object.values(v).includes('Admin'));
+                                
+                                this.isUserAdmin.next(Object.values(v).includes('Admin'));
+                            },
+                            e => console.log(e)
+                        );
+                        let savedUser = localStorage.getItem("currentUser");
+                        if (savedUser) {
+                            return JSON.parse(savedUser);
+                        }
+                    } else {
+                        localStorage.removeItem("currentUser");
+                        localStorage.removeItem("token");
+                    }
+                }
+            );
         }
         return this.createUser();
     }
@@ -57,11 +77,15 @@ export class UserService {
         return this.httpClient.delete(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/users/${objectId}`);
     }
 
+    isUserTokenValid(token: string) {
+        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/users/isvalidusertoken/${token}`);
+    }
+
     changeUserStatus(objectId: string, status: string) {
         return this.httpClient.put(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/024EF173-F6A1-4486-A86F-BFF7F4A7A72D/users/${objectId}/status`, { "userStatus": status });
     }
 
-    getUserRole(token: string = "") {
+    getUserRole(token: string) {
         return this.httpClient.get('https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/users/userroles', {
             headers: new HttpHeaders().set('user-token', token),
         });

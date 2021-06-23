@@ -12,7 +12,8 @@ import { UserService } from "../services/user.service";
 export class LoginFormComponent {
 
     email: string = "";
-    password: string = ""
+    password: string = "";
+    errorText: any;
 
     constructor(private authenticationService: AuthenticationService, private userService: UserService, private router: Router) { }
 
@@ -28,12 +29,26 @@ export class LoginFormComponent {
                     (v) => {
                         this.userService.isUserAdmin.next(Object.values(v).includes('Admin'));
                     },
-                    e => console.log(e)
+                    (error) => {
+                        console.log(error.message);
+                    }
                 );
                 this.router.navigate(["/"]);
             },
-            (error) => {
-                console.log(error)
+            (e) => {
+                switch (e.error.code) {
+                    case 3090:
+                        this.errorText = "Пользователь заблокирован администратором";
+                        break;
+
+                    case 3003:
+                        this.errorText = "Неверный логин или пароль";
+                        break;
+
+                    default:
+                        this.errorText = e.error.message;
+                        break;
+                }
             }
         );
     }
