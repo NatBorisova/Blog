@@ -1,0 +1,101 @@
+@import "../constants.less";
+
+.articles-list-container {
+  margin: 100px 40px 20px;
+
+  .filter {
+    display: flex;
+    align-items: center;
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 3px 3px 8px @dark-background-color;
+    font-size: 1.4rem;
+    color: @light-text-color;
+    background-color: fadeout(@dark-background-color, 20%);
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      margin: 10px 8px;
+      height: 24px;
+      width: 24px;
+      filter: invert(72%) sepia(15%) saturate(303%) hue-rotate(42deg) brightness(94%) contrast(93%);
+    }
+
+    .update {
+      background: center center no-repeat url("https://img.icons8.com/material-rounded/24/000000/update-left-rotation.png");
+    }
+
+    .add {
+      background: center center no-repeat url("https://img.icons8.com/material-rounded/24/000000/add.png");
+    }
+
+    label {
+      margin: 10px 5px;
+    }
+
+    select {
+      background-color: @light-background-color;
+      outline: none;
+      border: none;
+      border-radius: 15px;
+      padding: 4px 10px;
+      margin: 10px 5px;
+      width: calc(100% - 73px);
+    }
+  }
+
+  .article {
+    margin: 20px 0;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    max-height: 125px;
+    color: @dark-text-color;
+    font-size: 1.3rem;
+    background-image: linear-gradient(to bottom, @light-background-color, @dark-background-color);
+    border-radius: 15px;
+    box-shadow: 3px 3px 5px @dark-background-color;
+    padding: 20px 40px;
+    transition: 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(0.95, 0.95);
+    }
+
+    span {
+      font-size: 1.1rem;
+      margin: 5px 0;
+    }
+
+    h2 {
+      margin: auto;
+    }
+
+    p {
+      font-size: 1.3rem;
+      line-height: 1.8;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    a {
+      color: @dark-text-color;
+      transition: 0.3s ease;
+
+      &:hover {
+        color: @link-hover-color;
+      }
+    }
+
+  }
+
+  h3 {
+    font-size: 2rem;
+    font-weight: 300;
+    text-align: center;
+  }
+}

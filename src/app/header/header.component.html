@@ -3,7 +3,7 @@
     <div>
         <a [routerLink]="[ '/login' ]" *ngIf="!isUserLoggedIn">Вход</a>
         <a [routerLink]="[ '/registration' ]" *ngIf="!isUserLoggedIn">Регистрация</a>
-        <span *ngIf="isUserLoggedIn">{{login}}</span>
+        <a [routerLink]="[ '/' , user.login]" *ngIf="isUserLoggedIn">{{login}}</a>
         <a [routerLink]="[ '/administration' ]" *ngIf="isUserAdmin">Администрирование</a>
         <a *ngIf="isUserLoggedIn" (click)="logOut()">Выход</a>
     </div>

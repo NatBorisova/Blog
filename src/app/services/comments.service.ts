@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { IUser, UserService } from "../services/user.service";
-import { SectionService } from "../sections-table/sections.service";
-import { IArticle } from "../articles-table/articles.service";
+import { IUser } from "./user.service";
+import { IArticle } from "./articles.service";
 
 export interface IComment {
     created: string;
@@ -16,10 +15,10 @@ export interface IComment {
 @Injectable({ providedIn: "root" })
 export class CommentsService {
 
-    constructor(private httpClient: HttpClient, private userService: UserService, private sectionService: SectionService) { }
+    constructor(private httpClient: HttpClient) { }
 
     getCommentsForArticle(articleObjectId: string) {
-        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/comments?loadRelations=author%2Carticle&where=article.objectId%3D%27${articleObjectId}%27`);
+        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/comments?loadRelations=author%2Carticle&where=article.objectId%3D%27${articleObjectId}%27&sortBy=created`);
     }
 
     addComment(comment: string) {

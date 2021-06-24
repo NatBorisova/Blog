@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from "@angular/core";
-import { RegistrationService } from "./registration.service";
+import { RegistrationService } from "../services/registration.service";
 import { Router } from "@angular/router";
 import { UserService } from "../services/user.service";
 

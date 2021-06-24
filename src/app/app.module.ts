@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ArticleFormComponent } from './article-form/article-form.component';
 import { ArticleComponent } from './article/article.component';
+import { ArticlesListComponent } from './articles-list/articles-list.component';
 import { ArticlesTableComponent } from './articles-table/articles-table.component';
 import { CommentsComponent } from './comments/comments.component';
 import { HeaderComponent } from './header/header.component';
@@ -28,6 +29,7 @@ import { UserTableComponent } from './users-table/user-table.component';
     UserTableComponent,
     SectionsTableComponent,
     ArticleComponent,
+    ArticlesListComponent,
     ArticlesTableComponent,
     ArticleFormComponent,
     CommentsComponent,

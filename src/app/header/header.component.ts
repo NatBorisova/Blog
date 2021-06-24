@@ -1,7 +1,7 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { AuthenticationService } from "../login-form/authentication.service";
-import { UserService } from "../services/user.service";
+import { AuthenticationService } from "../services/authentication.service";
+import { IUser, UserService } from "../services/user.service";
 
 @Component({
     selector: "header-app",
@@ -9,20 +9,24 @@ import { UserService } from "../services/user.service";
     styleUrls: ['./header.component.less']
 })
 
-export class HeaderComponent implements OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
 
     isUserLoggedIn: boolean = false;
     isUserAdmin: boolean = false;
     login: string = "";
+    user: IUser;
 
     constructor(private userService: UserService, private authenticationService: AuthenticationService, private router: Router) {
-        userService.user.subscribe(v => {
+        this.user = userService.createUser();
+    }
+    ngOnInit() {
+        this.userService.user.subscribe(v => {
             this.isUserLoggedIn = v.login ? true : false;
             this.login = v.login;
+            this.user = v;
         });
-        userService.isUserAdmin.subscribe(v => this.isUserAdmin = v);
+        this.userService.isUserAdmin.subscribe(v => this.isUserAdmin = v);
     }
-
     logOut() {
         let token = localStorage.getItem("token");
         if (!token) { return }

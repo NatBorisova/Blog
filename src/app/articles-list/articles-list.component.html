@@ -1,0 +1,32 @@
+<div class="articles-list-container">
+    <div class="filter" *ngIf="this.currentUser.objectId">
+        <div class="section">
+            <label for="section">Раздел: </label>
+            <select id="section" [(ngModel)]="filter.section" (change)="getArticles()">
+                <option selected></option>
+                <option *ngFor="let section of sections" [ngValue]="section">{{section.name}}</option>
+            </select>
+        </div>
+        <div class="user">
+            <label for="user">Автор: </label>
+            <select id="user" [(ngModel)]="filter.author" (change)="getArticles()">
+                <option selected></option>
+                <option *ngFor="let user of users" [ngValue]="user">{{user.login}}</option>
+            </select>
+        </div>
+        <button class="add" [routerLink]="[ '/addArticle' ]"></button>
+        <button class="update" (click)="getArticles()"></button>
+    </div>
+    <div class="articles-container">
+        <div *ngIf="articles.length>0;else noArticles">
+            <div class="article" (click)="openArticle(article)" *ngFor="let article of articles">
+                <h2>{{article.title}}</h2>
+                <span>{{article.created | formatToDate}}, <a [routerLink]="[ '/' ]">{{article.author.login}}</a> в <a [routerLink]="[ '/' ]">{{article.section.name}}</a></span>
+                <p>{{article.text}}</p>
+            </div>
+        </div>
+    </div>
+    <ng-template #noArticles>
+        <h3>Здесь пока совсем пусто...</h3>
+    </ng-template>
+</div>

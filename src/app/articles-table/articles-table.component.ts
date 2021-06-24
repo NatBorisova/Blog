@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { ArticlesService, IArticle } from "./articles.service";
+import { ArticlesService, IArticle } from "../services/articles.service";
 
 @Component({
     selector: "articles-table-app",

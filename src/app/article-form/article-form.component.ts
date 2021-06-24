@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { ArticlesService } from "../articles-table/articles.service";
+import { ArticlesService } from "../services/articles.service";
 import { ISection, SectionService } from "../sections-table/sections.service";
 import { IUser, UserService } from "../services/user.service";
 
@@ -25,6 +25,8 @@ export class ArticleFormComponent {
     };
 
     constructor(private sectionService: SectionService, private userService: UserService, private articlesService: ArticlesService, private router: Router) {
+        console.log("add-article");
+        
         sectionService.getAllSections().subscribe((v: any) => { this.sections = v });
         userService.getAllUsers().subscribe((v: any) => { this.users = v });
         userService.user.subscribe(v => { this.article.author = v; });
@@ -35,5 +37,4 @@ export class ArticleFormComponent {
             () => this.router.navigate(["/"]),
             e => console.log(e));
     }
-
 }

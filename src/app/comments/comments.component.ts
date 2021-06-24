@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { IUser, UserService } from "../services/user.service";
-import { CommentsService, IComment } from "./comments.service";
+import { CommentsService, IComment } from "../services/comments.service";
 
 @Component({
     selector: "comments-app",
@@ -22,7 +22,6 @@ export class CommentsComponent implements OnInit {
         userService.isUserAdmin.subscribe(v => this.isUserAdmin = v);
         this.user = userService.createUser();
         userService.user.subscribe(v => this.user = v);
-        console.log(this.canUserComment);
     }
 
     ngOnInit() {
@@ -46,7 +45,10 @@ export class CommentsComponent implements OnInit {
             article: { objectId: this.articleObjectId }
         }
         this.commentsService.addComment(JSON.stringify(comment)).subscribe(
-            () => this.updateComments()
+            () => {
+                this.updateComments();
+                this.newComment = "";
+            }
         );
     }
 

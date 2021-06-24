@@ -12,38 +12,24 @@ export interface IUser {
 
 @Injectable()
 export class UserService {
-    public user: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(this.getCurrentUser());
+    public user: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(this.createUser());
     public isUserAdmin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(private httpClient: HttpClient) {
-        // let userToken = localStorage.getItem("token");
-        // if (userToken) {
-        //     this.getUserRole(userToken).subscribe(
-        //         (v) => {
-        //             this.isUserAdmin.next(Object.values(v).includes('Admin'));
-        //         },
-        //         e => console.log(e)
-        //     );
-        // }
-    }
-
-    getCurrentUser(): IUser {
         let userToken = localStorage.getItem("token");
         if (userToken) {
             this.isUserTokenValid(userToken).subscribe(
                 (isValid) => {
                     if (isValid) {
-                        this.getUserRole(userToken?userToken:"").subscribe(
+                        this.getUserRole(userToken ? userToken : "").subscribe(
                             (v) => {
-                                console.log(Object.values(v).includes('Admin'));
-                                
                                 this.isUserAdmin.next(Object.values(v).includes('Admin'));
                             },
                             e => console.log(e)
                         );
                         let savedUser = localStorage.getItem("currentUser");
                         if (savedUser) {
-                            return JSON.parse(savedUser);
+                            this.user.next(JSON.parse(savedUser));
                         }
                     } else {
                         localStorage.removeItem("currentUser");
@@ -52,7 +38,6 @@ export class UserService {
                 }
             );
         }
-        return this.createUser();
     }
 
     createUser(login: string = "", email: string = "", lastLogin: string = "", userStatus: string = "", objectId: string = ""): IUser {
