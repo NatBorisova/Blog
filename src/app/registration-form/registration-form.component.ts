@@ -1,50 +1,53 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from "@angular/core";
-import { RegistrationService } from "../services/registration.service";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { RegistrationService } from "../services/registration.service";
 import { UserService } from "../services/user.service";
 
 @Component({
     selector: "registration-form-app",
     changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './registration-form.component.html',
-    styleUrls: ['./registration-form.component.less']
+    templateUrl: "./registration-form.component.html",
+    styleUrls: ["./registration-form.component.less"]
 })
 
-export class RegistrationFormComponent implements OnDestroy {
+export class RegistrationFormComponent implements OnInit {
 
     login: string = "";
     email: string = "";
     password: string = "";
-    error: string = "";
     isUserAdmin: boolean = false;
+    errorText: string = "";
 
-    constructor(private registrationService: RegistrationService, private router: Router, private userService: UserService) {
-        // this.userService.user.subscribe(value => {
-        //     this.isUserAdmin = value.isUserAdmin;
-        // });
-        this.isUserAdmin = Boolean(localStorage.getItem("isUserAdmin"));
+    constructor(private registrationService: RegistrationService, private router: Router, private userService: UserService) { }
+
+    ngOnInit(): void {
+        this.userService.isUserAdmin.subscribe(v => this.isUserAdmin = v);
     }
-    registerUser() {
+
+    registerUser(): void {
         this.registrationService.register(this.login, this.email, this.password).subscribe(
             (registeredUser: any) => {
                 this.userService.changeUserStatus(registeredUser.objectId, this.isUserAdmin ? "ENABLED" : "DISABLED").subscribe();
                 if (this.isUserAdmin) {
                     this.router.navigate(["/administration"]);
+                    console.log(this.isUserAdmin);
+
                 } else {
                     this.router.navigate(["/login"]);
                 }
             },
             (e) => {
-                // if (e.error.code === 3033) {
-                //     this.error = "Пользователь с таким e-mail уже существует";
-                //     console.log(this.error);
-                // }
-                console.log(e);
-            }
-        );
-    }
+                switch (e.error.code) {
+                    case 3033:
+                        this.errorText = "Пользователь с таким e-mail уже существует";
+                        console.log(this.errorText);
+                        break;
 
-    ngOnDestroy() {
-        // this.userService.user.unsubscribe();
+                    default:
+                        this.errorText = e.error.message;
+                        break;
+                }
+            },
+        );
     }
 }

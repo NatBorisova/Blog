@@ -2,7 +2,7 @@
     <div class="toolbar">
         <button class="update" (click)="updateUsers()"></button>
         <button class="add" [routerLink]="[ '/registration' ]"></button>
-        <button class="send-message"></button>
+        <button class="send-message" [routerLink]="[ '/message' ]" [queryParams]="{'emails':getUsersEmails()}"></button>
     </div>
     <table make-sortable>
         <tr>
@@ -17,11 +17,11 @@
             <td>{{user.email}}</td>
             <td>{{user.lastLogin | formatToDate}}</td>
             <td>
-                <button class="change-status" [ngClass]="{'enabled': user.userStatus==='DISABLED'}" (click)="changeUserStatus(user.objectId, user.userStatus)">{{user.userStatus==="DISABLED"?"Не активен":"Активен"}}</button>
+                <button class="change-status" *ngIf="currentUserObjectId!==user.objectId" [ngClass]="{'enabled': user.userStatus==='DISABLED'}" (click)="changeUserStatus(user.objectId, user.userStatus)">{{user.userStatus==="DISABLED"?"Не активен":"Активен"}}</button>
             </td>
             <td>
-                <button class="delete" (click)="deleteUser(user.objectId)"></button>
-                <button class="send-message" [routerLink]="[ '/message', 'routeParam' ]"></button>
+                <button class="delete" *ngIf="currentUserObjectId!==user.objectId" (click)="deleteUser(user.objectId)"></button>
+                <button class="send-message" *ngIf="currentUserObjectId!==user.objectId" [routerLink]="[ '/message' ]" [queryParams]="{'emails':user.email}"></button>
             </td>
         </tr>
     </table>

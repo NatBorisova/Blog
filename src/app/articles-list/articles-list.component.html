@@ -18,7 +18,7 @@
         <button class="update" (click)="getArticles()"></button>
     </div>
     <div class="articles-container">
-        <div *ngIf="articles.length>0;else noArticles">
+        <div *ngIf="articles.length>0; else noArticles">
             <div class="article" (click)="openArticle(article)" *ngFor="let article of articles">
                 <h2>{{article.title}}</h2>
                 <span>{{article.created | formatToDate}}, <a [routerLink]="[ '/' ]">{{article.author.login}}</a> в <a [routerLink]="[ '/' ]">{{article.section.name}}</a></span>

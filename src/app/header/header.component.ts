@@ -5,8 +5,8 @@ import { IUser, UserService } from "../services/user.service";
 
 @Component({
     selector: "header-app",
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.less']
+    templateUrl: "./header.component.html",
+    styleUrls: ["./header.component.less"]
 })
 
 export class HeaderComponent implements OnInit, OnDestroy {
@@ -19,7 +19,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     constructor(private userService: UserService, private authenticationService: AuthenticationService, private router: Router) {
         this.user = userService.createUser();
     }
-    ngOnInit() {
+
+    ngOnInit(): void {
         this.userService.user.subscribe(v => {
             this.isUserLoggedIn = v.login ? true : false;
             this.login = v.login;
@@ -27,9 +28,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         });
         this.userService.isUserAdmin.subscribe(v => this.isUserAdmin = v);
     }
-    logOut() {
-        let token = localStorage.getItem("token");
-        if (!token) { return }
+
+    logOut(): void {
+        const token = localStorage.getItem("token");
+        if (!token) { return; }
         this.authenticationService.logout(token).subscribe(
             () => {
                 this.userService.user.next(this.userService.createUser());
@@ -39,12 +41,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this.router.navigate(["/"]);
             },
             (error) => {
-                console.log("error" + error)
-            }
+                console.log("error" + error);
+            },
         );
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.userService.user.unsubscribe();
     }
 }

@@ -8,7 +8,7 @@
                 </div>
                 <div class="actions">
                     <button [ngClass]="{'change-status': true, 'block':!comment.isDisabled}" *ngIf="isUserAdmin" (click)="changeCommentStatus(comment)">{{comment.isDisabled?'Разблокировать':'Заблокировать'}}</button>
-                    <button class="delete" (click)="deleteComment(comment.objectId)"></button>
+                    <button class="delete" *ngIf="isUserAdmin || comment.author.objectId===user.objectId" (click)="deleteComment(comment.objectId)"></button>
                 </div>
             </header>
             <div class="text">{{comment.isDisabled?'Комментарий заблокирован администратором':comment.text}}</div>

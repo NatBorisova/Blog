@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Component, Input, OnInit } from "@angular/core";
 import { ArticlesService, IArticle } from "../services/articles.service";
-import { ISection, SectionService } from "../sections-table/sections.service";
 import { IUser, UserService } from "../services/user.service";
+import { ISection, SectionService } from "../services/sections.service";
 
 @Component({
     selector: "articles-list-app",
-    templateUrl: './articles-list.component.html',
-    styleUrls: ['./articles-list.component.less']
+    templateUrl: "./articles-list.component.html",
+    styleUrls: ["./articles-list.component.less"]
 })
 
 export class ArticlesListComponent implements OnInit {
@@ -26,13 +26,13 @@ export class ArticlesListComponent implements OnInit {
         this.currentUser = userService.createUser();
     }
 
-    ngOnInit() {
-        this.sectionService.getAllSections().subscribe((v: any) => { this.sections = v });
-        this.userService.getAllUsers().subscribe((v: any) => { this.users = v });
+    ngOnInit(): void {
+        this.sectionService.getAllSections().subscribe((v: any) => { this.sections = v; },);
+        this.userService.getAllUsers().subscribe((v: any) => { this.users = v },);
         this.userService.user.subscribe(v => {
             this.currentUser = v;
-            this.userService.isUserAdmin.subscribe((v) => {
-                this.isUserAdmin = v;
+            this.userService.isUserAdmin.subscribe((value) => {
+                this.isUserAdmin = value;
                 this.getArticles();
             });
         });
@@ -43,7 +43,7 @@ export class ArticlesListComponent implements OnInit {
         });
     }
 
-    getArticles() {
+    getArticles(): void {
         const authorObjectId = this.filter.author.objectId;
         const sectionObjectId = this.filter.section.objectId;
 
@@ -54,21 +54,23 @@ export class ArticlesListComponent implements OnInit {
         if (authorObjectId && sectionObjectId) {
             this.articlesService.getAllAvailableArticles(this.currentUser.objectId, authorObjectId, sectionObjectId).subscribe((v: any) => this.articles = v);
             return;
-        } else if (authorObjectId) {
+        }
+        if (authorObjectId) {
             this.articlesService.getAllAvailableArticles(this.currentUser.objectId, authorObjectId).subscribe((v: any) => this.articles = v);
             return;
-        } else if (sectionObjectId) {
+        }
+        if (sectionObjectId) {
             this.articlesService.getAllAvailableArticles(this.currentUser.objectId, "", sectionObjectId).subscribe((v: any) => this.articles = v);
             return;
         }
         this.articlesService.getAllAvailableArticles(this.currentUser.objectId).subscribe((v: any) => this.articles = v);
     }
 
-    openArticle(article: IArticle) {
+    openArticle(article: IArticle): void {
         this.router.navigate(["/article", article.title],
             {
                 queryParams: {
-                    'article': JSON.stringify(article)
+                    "article": JSON.stringify(article)
                 }
             });
     }

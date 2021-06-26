@@ -10,6 +10,12 @@
             <option disabled selected></option>
             <option *ngFor="let section of sections" [ngValue]="section">{{section.name}}</option>
         </select>
+        <input type="checkbox" class="toggle-box" name="toggle-box" id="toggle-box">
+        <label for="toggle-box"><span class="add"></span></label>
+        <div class="new-section">
+            <input type="text" name="newSection" id="newSection" [(ngModel)]="newSection">
+            <button (click)="addNewSection()">Ок</button>
+        </div>
     </div>
     <div class="text">
         <label for="text">Текст: </label>

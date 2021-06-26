@@ -1,0 +1,16 @@
+<div class="message-form-container">
+    <h2>Отправка e-mail</h2>
+    <div>
+        <label for="emails">Кому: </label>
+        <input type="text" id="emails" name="emails" [(ngModel)]="emails">
+    </div>
+    <div>
+        <label for="subject">Тема: </label>
+        <input type="text" id="subject" name="subject" [(ngModel)]="message.subject">
+    </div>
+    <div>
+        <label for="text">Текст: </label>
+        <textarea name="text" id="text" [(ngModel)]="message.textmessage"></textarea>
+    </div>
+    <button (click)="sendEmail()">Отправить</button>
+</div>

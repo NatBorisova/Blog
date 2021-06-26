@@ -1,14 +1,13 @@
-import { Route } from "@angular/compiler/src/core";
-import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Component } from "@angular/core";
 import { ArticlesService, IArticle } from "../services/articles.service";
-import { SectionService } from "../sections-table/sections.service";
+import { SectionService } from "../services/sections.service";
 import { UserService } from "../services/user.service";
 
 @Component({
     selector: "article-app",
-    templateUrl: './article.component.html',
-    styleUrls: ['./article.component.less']
+    templateUrl: "./article.component.html",
+    styleUrls: ["./article.component.less"]
 })
 
 export class ArticleComponent {
@@ -23,12 +22,12 @@ export class ArticleComponent {
         activatedRoute.queryParams.subscribe(
             (queryParam: any) => {
                 this.article = JSON.parse(queryParam.article);
-            }
+            },
         );
         userService.user.subscribe((v: any) => {
             if (this.article.canComment) {
-                let user = this.article.canComment.find(user => user.objectId === v.objectId);
-                if (user) {
+                // const user = this.article.canComment.find(user => user.objectId === v.objectId);
+                if (this.article.canComment.find(user => user.objectId === v.objectId)) {
                     this.canUserComment = true;
                 }
             }
@@ -39,21 +38,21 @@ export class ArticleComponent {
         userService.isUserAdmin.subscribe(v => this.isUserAdmin = v);
     }
 
-    deleteArticle() {
+    deleteArticle(): void {
         this.articlesService.deleteArticle(this.article.objectId).subscribe(
             () => {
                 this.route.navigate(["/"]);
             },
-            (e) => { console.log(e); }
+            (e) => { console.log(e); },
         );
     }
 
-    disableArticle() {
+    disableArticle(): void {
         this.articlesService.changeStatus(this.article.objectId, false).subscribe(
-            () => { 
+            () => {
                 this.article.isDisabled = false;
-             },
-            (e) => { console.log(e); }
+            },
+            (e) => { console.log(e); },
         );
     }
 }

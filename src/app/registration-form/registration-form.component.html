@@ -26,8 +26,7 @@
         <div class="password">
             <div class="credential">
                 <label for="password">Пароль:</label>
-                <!-- <input type="password" name="password" id="password" [(ngModel)]="user.password" #password="ngModel" autocomplete="off" required pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{8,}"> -->
-                <input type="password" name="password" id="password" [(ngModel)]="password" #userPassword="ngModel" autocomplete="off">
+                <input type="password" name="password" id="password" [(ngModel)]="password" #userPassword="ngModel" autocomplete="off" required pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{8,}">
             </div>
             <div class="mistake-description" *ngIf="userPassword.invalid && (userPassword.dirty || userPassword.touched)">
                 <div *ngIf="userPassword.errors?.pattern">
@@ -38,7 +37,7 @@
                 </div>
             </div>
         </div>
+        <span class="error">{{errorText}}</span>
         <button [disabled]="!form.valid" (click)="registerUser()">{{isUserAdmin?"Зарегистрировать":"Зарегистрироваться"}}</button>
-        <div class="error-description">{{error}}</div>
     </form>
 </div>
