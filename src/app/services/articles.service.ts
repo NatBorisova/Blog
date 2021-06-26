@@ -32,7 +32,7 @@ export class ArticlesService {
             canWatch: [],
             isDisabled: false,
             objectId: "",
-        }
+        };
     }
 
     getAllArticles(): Observable<Object> {

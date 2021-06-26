@@ -1,8 +1,8 @@
-import { ActivatedRoute, Router } from "@angular/router";
 import { Component, Input, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ArticlesService, IArticle } from "../services/articles.service";
-import { IUser, UserService } from "../services/user.service";
 import { ISection, SectionService } from "../services/sections.service";
+import { IUser, UserService } from "../services/user.service";
 
 @Component({
     selector: "articles-list-app",
@@ -27,8 +27,8 @@ export class ArticlesListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.sectionService.getAllSections().subscribe((v: any) => { this.sections = v; },);
-        this.userService.getAllUsers().subscribe((v: any) => { this.users = v },);
+        this.sectionService.getAllSections().subscribe((v: any) => { this.sections = v; }, );
+        this.userService.getAllUsers().subscribe((v: any) => { this.users = v; }, );
         this.userService.user.subscribe(v => {
             this.currentUser = v;
             this.userService.isUserAdmin.subscribe((value) => {

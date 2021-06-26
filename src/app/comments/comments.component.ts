@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { CommentsService, IComment } from "../services/comments.service";
 import { IUser, UserService } from "../services/user.service";
-import { Router } from "@angular/router";
 
 @Component({
     selector: "comments-app",
