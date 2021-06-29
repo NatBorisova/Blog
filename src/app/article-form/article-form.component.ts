@@ -32,6 +32,8 @@ export class ArticleFormComponent {
     }
 
     addArticle(): void {
+        this.article.canWatch.push(this.article.author);
+        this.article.canComment.push(this.article.author);
         this.articlesService.addArticle(JSON.stringify(this.article)).subscribe(
             () => this.router.navigate(["/"]),
             e => console.log(e));

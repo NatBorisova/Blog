@@ -5,8 +5,8 @@
     </div>
     <div class="article">
         <h2>{{article.title}}</h2>
-        <span>{{article.created | formatToDate}}, <a [routerLink]="[ '/' ]">{{article.author.login}}</a> в <a [routerLink]="[ '/' ]">{{article.section.name}}</a></span>
+        <span>{{article.created | formatToDate}}, <a [routerLink]="[ '/articles', article.author.login, '' ]">{{article.author.login===""?"DELETED":article.author.login}}</a> в <a [routerLink]="[ '/articles', '', article.section.name ]">{{article.section.name}}</a></span>
         <p>{{article.isDisabled?"Статья заблокирована администратором":(article.section.isApproved?article.text:"Раздел еще не подтвержден администратором")}}</p>
     </div>
-    <comments-app [articleObjectId]="article.objectId" [canUserComment]="canUserComment"></comments-app>
+    <comments-app [articleObjectId]="article.objectId" [canUserComment]="canUserComment" *ngIf="!article.isDisabled && article.section.isApproved"></comments-app>
 </div>

@@ -21,11 +21,12 @@
       align-content: center;
       justify-content: space-between;
       margin: 22px 5px;
+      padding: 2px 0;
     }
 
     label {
       padding: 2px 0;
-      margin: 0 5px;
+      margin: 0 5px 0 7px;
       color: @light-text-color;
       font-size: 1.8rem;
     }
@@ -53,7 +54,7 @@
       box-shadow: 2px 2px 5px @dark-background-color;
       transition: 0.3s ease;
       padding: 5px;
-      margin: 10px 8px;
+      margin: 30px 8px 15px;
       width: calc(100% - 10px);
 
       &:hover:enabled {
@@ -77,14 +78,15 @@
   }
 
   .mistake-description {
+    position: relative;
     font-size: 1rem;
-    margin: -18px 0 -17px 83px;
+    margin: -20px 0 -19px 85px;
     color: @error-color;
   }
 
-  .password .mistake-description {
-    margin-bottom: -8px;
-  }
+  // .password .mistake-description {
+  //   margin-bottom: -8px;
+  // }
 
   .error {
     display: flex;

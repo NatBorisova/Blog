@@ -14,6 +14,8 @@ import { RegistrationFormComponent } from "./registration-form/registration-form
 
 const routes: Routes = [
   { path: "", component: ArticlesListComponent },
+  { path: "articles/:authorLogin/:sectionName", component: ArticlesListComponent },
+  { path: "articles", redirectTo: ""},
   { path: "login", component: LoginFormComponent, canActivate: [LoginGuard] },
   { path: "registration", component: RegistrationFormComponent },
   { path: "administration", component: AdministrationFormComponent, canActivate: [AdministrationGuard] },

@@ -26,7 +26,6 @@ export class ArticleComponent {
         );
         userService.user.subscribe((v: any) => {
             if (this.article.canComment) {
-                // const user = this.article.canComment.find(user => user.objectId === v.objectId);
                 if (this.article.canComment.find(user => user.objectId === v.objectId)) {
                     this.canUserComment = true;
                 }

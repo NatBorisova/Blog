@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, forkJoin, Observable } from "rxjs";
+import { mergeMap, tap } from "rxjs/operators";
 
 export interface IUser {
     login: string;
@@ -17,27 +18,26 @@ export class UserService {
 
     constructor(private httpClient: HttpClient) {
         const userToken = localStorage.getItem("token");
-        if (userToken) {
-            this.isUserTokenValid(userToken).subscribe(
-                (isValid) => {
-                    if (isValid) {
-                        this.getUserRole(userToken ? userToken : "").subscribe(
-                            (v) => {
-                                this.isUserAdmin.next(Object.values(v).includes("Admin"));
-                            },
-                            e => console.log(e),
-                        );
-                        const savedUser = localStorage.getItem("currentUser");
-                        if (savedUser) {
-                            this.user.next(JSON.parse(savedUser));
-                        }
-                    } else {
-                        localStorage.removeItem("currentUser");
-                        localStorage.removeItem("token");
-                    }
-                },
-            );
-        }
+        if (!userToken) { return; }
+        this.isUserTokenValid(userToken).pipe(
+            mergeMap((isValid) => {
+                if (!isValid) {
+                    localStorage.removeItem("currentUser");
+                    localStorage.removeItem("token");
+                    return Observable.throw("");
+                }
+                const savedUser = localStorage.getItem("currentUser");
+                if (savedUser) {
+                    this.user.next(JSON.parse(savedUser));
+                }
+                const userRole = this.getUserRole(userToken ? userToken : "");
+                return forkJoin([userRole]);
+            })
+        ).subscribe(
+            res => {
+                this.isUserAdmin.next(Object.values(res[0]).includes("Admin"));
+            }
+        );
     }
 
     createUser(login: string = "", email: string = "", lastLogin: string = "", userStatus: string = "", objectId: string = ""): IUser {

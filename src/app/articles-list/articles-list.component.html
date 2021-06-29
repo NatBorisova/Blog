@@ -2,16 +2,16 @@
     <div class="filter" *ngIf="this.currentUser.objectId">
         <div class="section">
             <label for="section">Раздел: </label>
-            <select id="section" [(ngModel)]="filter.section" (change)="getArticles()">
-                <option selected></option>
-                <option *ngFor="let section of sections" [ngValue]="section">{{section.name}}</option>
+            <select id="section" [(ngModel)]="sectionName" (change)="getArticles()">
+                <option></option>
+                <option *ngFor="let section of sections" [ngValue]="section.name" [selected]="section.name===sectionName">{{section.name}}</option>
             </select>
         </div>
         <div class="user">
             <label for="user">Автор: </label>
-            <select id="user" [(ngModel)]="filter.author" (change)="getArticles()">
-                <option selected></option>
-                <option *ngFor="let user of users" [ngValue]="user">{{user.login}}</option>
+            <select id="user" [(ngModel)]="authorLogin" (change)="getArticles()">
+                <option></option>
+                <option *ngFor="let user of users" [ngValue]="user.login" [selected]="user.login===authorLogin">{{user.login}}</option>
             </select>
         </div>
         <button class="add" [routerLink]="[ '/addArticle' ]"></button>
@@ -21,8 +21,8 @@
         <div *ngIf="articles.length>0; else noArticles">
             <div class="article" (click)="openArticle(article)" *ngFor="let article of articles">
                 <h2>{{article.title}}</h2>
-                <span>{{article.created | formatToDate}}, <a [routerLink]="[ '/' ]">{{article.author.login}}</a> в <a [routerLink]="[ '/' ]">{{article.section.name}}</a></span>
-                <p>{{article.text}}</p>
+                <span>{{article.created | formatToDate}}, <a [routerLink]="[ '/articles', article.author.login, '' ]">{{article.author.login===""?"DELETED":article.author.login}}</a> в <a [routerLink]="[ '/articles', '', article.section.name ]">{{article.section.name}}</a></span>
+                <p>{{article.isDisabled?"Статья заблокирована администратором":(article.section.isApproved?article.text:"Раздел еще не подтвержден администратором")}}</p>
             </div>
         </div>
     </div>

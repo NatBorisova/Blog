@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { combineLatest } from "rxjs";
 import { ArticlesService, IArticle } from "../services/articles.service";
 import { ISection, SectionService } from "../services/sections.service";
 import { IUser, UserService } from "../services/user.service";
@@ -12,58 +13,46 @@ import { IUser, UserService } from "../services/user.service";
 
 export class ArticlesListComponent implements OnInit {
 
-    @Input() filter: any = {
-        author: this.userService.createUser(),
-        section: this.sectionService.createSection(),
-    };
+    @Input() authorLogin: string = "";
+    @Input() sectionName: string = "";
+
     articles: IArticle[] = [];
     sections: ISection[] = [];
     users: IUser[] = [];
     currentUser: IUser;
     isUserAdmin: boolean = false;
 
-    constructor(private sectionService: SectionService, private userService: UserService, private articlesService: ArticlesService, private router: Router, private activateRoute: ActivatedRoute) {
+    constructor(private sectionService: SectionService, private userService: UserService, private articlesService: ArticlesService, private router: Router, private activatedRoute: ActivatedRoute) {
         this.currentUser = userService.createUser();
     }
 
     ngOnInit(): void {
-        this.sectionService.getAllSections().subscribe((v: any) => { this.sections = v; }, );
-        this.userService.getAllUsers().subscribe((v: any) => { this.users = v; }, );
-        this.userService.user.subscribe(v => {
-            this.currentUser = v;
-            this.userService.isUserAdmin.subscribe((value) => {
-                this.isUserAdmin = value;
+        this.sectionService.getAllSections().subscribe((v: any) => { this.sections = v; },);
+        this.userService.getAllUsers().subscribe((v: any) => { this.users = v; },);
+
+        combineLatest([this.userService.user, this.userService.isUserAdmin, this.activatedRoute.params])
+            .subscribe(result => {
+                this.currentUser = result[0];
+                this.isUserAdmin = result[1];
+                if (result[2].authorLogin) {
+                    this.authorLogin = result[2].authorLogin;
+                }
+                if (result[2].sectionName) {
+                    this.sectionName = result[2].sectionName;
+                }
                 this.getArticles();
             });
-        });
-        this.activateRoute.params.subscribe(params => {
-            if (params.login) {
-                this.filter.author = this.currentUser;
-            }
-        });
     }
 
     getArticles(): void {
-        const authorObjectId = this.filter.author.objectId;
-        const sectionObjectId = this.filter.section.objectId;
-
         if (!this.currentUser.objectId || this.isUserAdmin) {
-            this.articlesService.getAllArticles().subscribe((v: any) => this.articles = v);
+            this.articlesService.getAllAvailableArticles("", this.authorLogin, this.sectionName).subscribe((v: any) => this.articles = v);
             return;
         }
-        if (authorObjectId && sectionObjectId) {
-            this.articlesService.getAllAvailableArticles(this.currentUser.objectId, authorObjectId, sectionObjectId).subscribe((v: any) => this.articles = v);
-            return;
-        }
-        if (authorObjectId) {
-            this.articlesService.getAllAvailableArticles(this.currentUser.objectId, authorObjectId).subscribe((v: any) => this.articles = v);
-            return;
-        }
-        if (sectionObjectId) {
-            this.articlesService.getAllAvailableArticles(this.currentUser.objectId, "", sectionObjectId).subscribe((v: any) => this.articles = v);
-            return;
-        }
-        this.articlesService.getAllAvailableArticles(this.currentUser.objectId).subscribe((v: any) => this.articles = v);
+
+        this.articlesService.getAllAvailableArticles(this.currentUser.login, this.authorLogin, this.sectionName).subscribe((v: any) => {
+            this.articles = v;
+        });
     }
 
     openArticle(article: IArticle): void {
