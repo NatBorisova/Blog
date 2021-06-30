@@ -24,13 +24,13 @@
     <div class="canUsersWatch">
         <label for="canUsersWatch">Пользователи, которые могут просматривать: </label>
         <select multiple size="3" [(ngModel)]="article.canWatch" id="canUsersWatch">
-            <option *ngFor="let user of users" [ngValue]="user">{{user.login}}</option>
+            <option *ngFor="let user of users" [ngValue]="user.objectId">{{user.login}}</option>
         </select>
     </div>
     <div class="canUsersComment">
         <label for="canUsersComment">Пользователи, которые могут комментировать: </label>
         <select multiple size="3" [(ngModel)]="article.canComment" id="canUsersComment">
-            <option *ngFor="let user of users" [ngValue]="user">{{user.login}}</option>
+            <option *ngFor="let user of users" [ngValue]="user.objectId">{{user.login}}</option>
         </select>
     </div>
     <div>

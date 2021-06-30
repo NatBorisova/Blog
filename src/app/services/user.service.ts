@@ -1,15 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, forkJoin, Observable } from "rxjs";
-import { mergeMap, tap } from "rxjs/operators";
-
-export interface IUser {
-    login: string;
-    email: string;
-    lastLogin: string;
-    userStatus: string;
-    objectId: string;
-}
+import { BehaviorSubject, forkJoin, Observable, throwError } from "rxjs";
+import { map, mergeMap } from "rxjs/operators";
+import { IUser } from "../interfaces/IUser";
 
 @Injectable()
 export class UserService {
@@ -24,7 +17,7 @@ export class UserService {
                 if (!isValid) {
                     localStorage.removeItem("currentUser");
                     localStorage.removeItem("token");
-                    return Observable.throw("");
+                    throwError("token is invalid");
                 }
                 const savedUser = localStorage.getItem("currentUser");
                 if (savedUser) {
@@ -32,11 +25,10 @@ export class UserService {
                 }
                 const userRole = this.getUserRole(userToken ? userToken : "");
                 return forkJoin([userRole]);
-            })
+            }),
         ).subscribe(
-            res => {
-                this.isUserAdmin.next(Object.values(res[0]).includes("Admin"));
-            }
+            res => { this.isUserAdmin.next(Object.values(res[0]).includes("Admin")); },
+            (e) => { console.log(e); }
         );
     }
 
@@ -54,8 +46,13 @@ export class UserService {
         return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/users/${this.user.value.objectId}`);
     }
 
-    getAllUsers(): Observable<Object> {
-        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/users`);
+    getAllUsers(): Observable<IUser[]> {
+        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/users`)
+            .pipe(map((data: any) => {
+                return data.map((user: IUser): IUser => {
+                    return this.createUser(user.login, user.email, user.lastLogin, user.userStatus, user.objectId);
+                });
+            }));
     }
 
     deleteUser(objectId: string): Observable<Object> {

@@ -1,18 +1,20 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-
-
-export interface IMessage {
-    subject: string;
-    textmessage: string;
-    to: string[];
-}
+import { IMessage } from "../interfaces/IMessage";
 
 @Injectable({ providedIn: "root" })
 export class MessagesService {
 
     constructor(private httpClient: HttpClient) { }
+    
+    createNewMessage(): IMessage {
+        return {
+            subject: "",
+            textmessage: "",
+            to: []
+        };
+    }
 
     sendEmail(message: IMessage): Observable<Object> {
         const body: any = {

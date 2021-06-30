@@ -2,20 +2,12 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { ISection, SectionService } from "./sections.service";
-import { IUser, UserService } from "./user.service";
-
-export interface IArticle {
-    created: string;
-    title: string;
-    text: string;
-    author: IUser;
-    section: ISection;
-    canComment: IUser[];
-    canWatch: IUser[];
-    isDisabled: boolean;
-    objectId: string;
-}
+import { IArticle } from "../interfaces/IArticle";
+import { INewArticle } from "../interfaces/INewArticle";
+import { ISection } from "../interfaces/ISection";
+import { IUser } from "../interfaces/IUser";
+import { SectionService } from "./sections.service";
+import { UserService } from "./user.service";
 
 @Injectable({ providedIn: "root" })
 export class ArticlesService {
@@ -44,10 +36,22 @@ export class ArticlesService {
         };
     }
 
-    getAllArticles(): Observable<Object> {
-        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles?loadRelations=section,author,canComment`)
+    createNewArticle(): INewArticle {
+        return {
+            title: "",
+            text: "",
+            author: this.userService.createUser(),
+            section: this.sectionService.createSection(),
+            canComment: [],
+            canWatch: [],
+            isDisabled: false
+        };
+    }
+
+    getAllArticles(authorLogin: string = "", sectionName: string = ""): Observable<IArticle[]> {
+        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles?loadRelations=section,author,canComment&where=title%21%3D%27%27${authorLogin?`%20AND%20author.login%3D%27${authorLogin}%27`:''}${sectionName?`%20AND%20section.name%3D%27${sectionName}%27`:''}&sortBy=created`)
             .pipe(map((data: any) => {
-                return data.map((article: any): IArticle => {
+                return data.map((article: IArticle): IArticle => {
                     return this.createArticle(article.created, article.title, article.text,
                         article.author, article.section, article.canComment, article.canWatch,
                         article.isDisabled, article.objectId);
@@ -55,13 +59,8 @@ export class ArticlesService {
             }));
     }
 
-    getAllAvailableArticles(userLogin: string = "", authorLogin: string = "", sectionName: string = ""): Observable<Object> {
-        let url = "";
-        if (userLogin) {
-            url = `https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles?loadRelations=section,author,canComment,canWatch&where=isDisabled%3Dfalse%20AND%20canWatch.login%3D%27${userLogin}%27`;
-        } else {
-            url = `https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles?loadRelations=section,author,canComment,canWatch&where=title%21%3D%27%27`;
-        }
+    getAllAvailableArticles(userLogin: string, authorLogin: string = "", sectionName: string = ""): Observable<IArticle[]> {
+        let url = `https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles?loadRelations=section,author,canComment,canWatch&where=isDisabled%3Dfalse%20AND%20canWatch.login%3D%27${userLogin}%27`;
         if (authorLogin) {
             if (authorLogin === userLogin) {
                 url = url.replace("isDisabled%3Dfalse%20AND%20", "");
@@ -71,14 +70,15 @@ export class ArticlesService {
         if (sectionName) {
             url = url + `%20AND%20section.name%3D%27${sectionName}%27`;
         }
+        url = url + "&sortBy=created";
         return this.httpClient.get(url)
             .pipe(map((data: any) => {
-                return data.map((article: any): IArticle => {
+                return data.map((article: IArticle): IArticle => {
                     return this.createArticle(article.created, article.title, article.text,
                         article.author, article.section, article.canComment, article.canWatch,
                         article.isDisabled, article.objectId);
                 });
-            }));;
+            }));
     }
 
     addArticle(article: string): Observable<Object> {

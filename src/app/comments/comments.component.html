@@ -4,7 +4,7 @@
         <div *ngFor="let comment of comments" class="comment">
             <header>
                 <div>
-                    <a [routerLink]="[ '/' ]">{{comment.author.login}}</a> {{comment.created | formatToDate}}
+                    <a [routerLink]="[ '/articles', comment.author.login, '' ]">{{comment.author.login===""?"DELETED":comment.author.login}}</a> {{comment.created | formatToDate}}
                 </div>
                 <div class="actions">
                     <button [ngClass]="{'change-status': true, 'block':!comment.isDisabled}" *ngIf="isUserAdmin" (click)="changeCommentStatus(comment)">{{comment.isDisabled?'Разблокировать':'Заблокировать'}}</button>
