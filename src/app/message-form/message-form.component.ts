@@ -25,7 +25,7 @@ export class MessageFormComponent implements OnInit, OnDestroy {
         this.activatedRoute.queryParams
             .pipe(takeUntil(this._onDestroy))
             .subscribe(
-                (queryParam: any) => {
+                (queryParam) => {
                     this.emails = queryParam.emails;
                 },
             );

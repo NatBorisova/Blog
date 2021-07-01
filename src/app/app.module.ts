@@ -1,6 +1,6 @@
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { AdministrationFormComponent } from "./administration-form/administration-form.component";
 import { AppRoutingModule } from "./app-routing.module";
@@ -44,6 +44,7 @@ import { UserTableComponent } from "./users-table/user-table.component";
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

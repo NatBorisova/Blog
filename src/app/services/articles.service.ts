@@ -49,7 +49,7 @@ export class ArticlesService {
     }
 
     getAllArticles(authorLogin: string = "", sectionName: string = ""): Observable<IArticle[]> {
-        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles?loadRelations=section,author,canComment&where=title%21%3D%27%27${authorLogin?`%20AND%20author.login%3D%27${authorLogin}%27`:''}${sectionName?`%20AND%20section.name%3D%27${sectionName}%27`:''}&sortBy=created`)
+        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles?loadRelations=section,author,canComment&where=title%21%3D%27%27${authorLogin ? `%20AND%20author.login%3D%27${authorLogin}%27` : ""}${sectionName ? `%20AND%20section.name%3D%27${sectionName}%27` : ""}&sortBy=created`)
             .pipe(map((data: any) => {
                 return data.map((article: IArticle): IArticle => {
                     return this.createArticle(article.created, article.title, article.text,

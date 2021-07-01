@@ -1,11 +1,20 @@
 <header>
     <h1 [routerLink]="[ '/' ]"><span></span>log</h1>
-    <div>
-        <a [routerLink]="[ '/info' ]">Инфо</a>
-        <a [routerLink]="[ '/login' ]" *ngIf="!isUserLoggedIn">Вход</a>
-        <a [routerLink]="[ '/registration' ]" *ngIf="!isUserLoggedIn">Регистрация</a>
-        <a [routerLink]="[ '/articles', login, '' ]" *ngIf="isUserLoggedIn">{{login}}</a>
-        <a [routerLink]="[ '/administration' ]" *ngIf="isUserAdmin">Администрирование</a>
-        <a *ngIf="isUserLoggedIn" (click)="logOut()">Выход</a>
-    </div>
+    <nav>
+        <ul class="topmenu">
+            <li> <a [routerLink]="[ '/info' ]">Инфо</a> </li>
+            <li> <a [routerLink]="[ '/login' ]" *ngIf="!isUserLoggedIn">Вход</a> </li>
+            <li> <a [routerLink]="[ '/registration' ]" *ngIf="!isUserLoggedIn">Регистрация</a> </li>
+            <li>
+                <a [routerLink]="" class="submenu-link" *ngIf="isUserLoggedIn">
+                    {{login}}<i class="fa fa-angle-down" aria-hidden="true"></i>                    
+                </a>
+                <ul class="submenu">
+                    <li> <a [routerLink]="[ '/articles', login, '' ]">Мои статьи</a></li>
+                    <li> <a [routerLink]="[ '/administration' ]" *ngIf="isUserAdmin">Администрирование</a></li>
+                    <li> <a *ngIf="isUserLoggedIn" (click)="logOut()">Выход</a> </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
 </header>

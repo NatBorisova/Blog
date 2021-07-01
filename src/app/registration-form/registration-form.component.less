@@ -4,7 +4,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 24vh auto;
+  flex-direction: column;
+  margin: 12vh auto;
+  max-width: 355px;
 
   form {
     background-image: linear-gradient(to bottom, @light-background-color, @dark-background-color);
@@ -16,12 +18,18 @@
       padding: 40px 10px;
     }
 
-    .credential {
+    .login,
+    .email,
+    .password {
       display: flex;
-      align-content: center;
+      flex-direction: row;
+      align-content: space-between;
       justify-content: space-between;
-      margin: 22px 5px;
-      padding: 2px 0;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin: 5px;
+      padding-bottom: 13px;
+      width: 100%;
     }
 
     label {
@@ -40,6 +48,13 @@
       height: 26px;
     }
 
+    .mistake-description {
+      position: absolute;
+      font-size: 1rem;
+      margin: 32px 0 -14px 83px;
+      color: @error-color;
+    }
+
     input.ng-touched.ng-invalid {
       border: solid @error-color 2px;
     }
@@ -50,50 +65,29 @@
       border-radius: 8px;
       font-size: 1.8rem;
       border: 1px solid @dark-background-color;
-      cursor: pointer;
       box-shadow: 2px 2px 5px @dark-background-color;
       transition: 0.3s ease;
       padding: 5px;
-      margin: 30px 8px 15px;
+      margin: 15px 8px;
       width: calc(100% - 10px);
+
+      &:enabled {
+        cursor: pointer;
+      }
 
       &:hover:enabled {
         transform: scale(0.95, 0.95);
         box-shadow: 2px 2px 15px @dark-background-color;
       }
     }
-  }
 
-  span {
-    margin: -10px auto;
-    color: @light-text-color;
-    font-size: 1.4rem;
-    cursor: pointer;
-    transition: 0.3s ease;
-
-    &:hover {
-      text-decoration: underline;
-      transform: scale(1.05, 1.05);
+    .error {
+      display: flex;
+      justify-content: center;
+      color: @error-color;
+      font-size: 1.2rem;
+      height: 8px;
+      font-weight: 500;
     }
-  }
-
-  .mistake-description {
-    position: relative;
-    font-size: 1rem;
-    margin: -20px 0 -19px 85px;
-    color: @error-color;
-  }
-
-  // .password .mistake-description {
-  //   margin-bottom: -8px;
-  // }
-
-  .error {
-    display: flex;
-    justify-content: center;
-    color: @error-color;
-    font-size: 1.2rem;
-    height: 8px;
-    font-weight: 500;
   }
 }

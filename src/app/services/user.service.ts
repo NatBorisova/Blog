@@ -28,7 +28,7 @@ export class UserService {
             }),
         ).subscribe(
             res => { this.isUserAdmin.next(Object.values(res[0]).includes("Admin")); },
-            (e) => { console.log(e); }
+            (e) => { console.log(e); },
         );
     }
 

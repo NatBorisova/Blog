@@ -1,43 +1,37 @@
 <div class="registration-form">
-    <form action="" #form="ngForm">
+    <form [formGroup]="registrationForm" class="registration-form">
         <div class="login">
-            <div class="credential">
-                <label for="login">Логин:</label>
-                <input type="text" name="login" id="login" [(ngModel)]="login" #userLogin="ngModel" autocomplete="off" required maxLength="20">
-            </div>
-            <div class="mistake-description" *ngIf="userLogin.invalid && (userLogin.dirty || userLogin.touched)">
-                <div *ngIf="userLogin.errors?.required">
+            <label for="login">Логин:</label>
+            <input type="text" id="login" formControlName="login" autocomplete="off">
+            <div class="mistake-description" *ngIf="registrationForm.controls['login'].invalid && registrationForm.controls['login'].touched">
+                <div *ngIf="registrationForm.controls['login'].hasError('required')">
                     Необходимо ввести логин
                 </div>
-                <div *ngIf="userLogin.errors?.maxLength">
+                <div *ngIf="registrationForm.controls['login'].hasError('maxlength')">
                     Максимальная длина - 20 символов
                 </div>
             </div>
         </div>
         <div class="email">
-            <div class="credential">
-                <label for="email">E-mail:</label>
-                <input type="email" name="email" id="email" [(ngModel)]="email" #userEmail="ngModel" autocomplete="off" required email>
-            </div>
-            <div class="mistake-description" *ngIf="userEmail.invalid && (userEmail.dirty || userEmail.touched)">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" formControlName="email" autocomplete="off">
+            <div class="mistake-description" *ngIf="registrationForm.controls['email'].invalid && registrationForm.controls['email'].touched">
                 Необходимо ввести e-mail
             </div>
         </div>
         <div class="password">
-            <div class="credential">
-                <label for="password">Пароль:</label>
-                <input type="password" name="password" id="password" [(ngModel)]="password" #userPassword="ngModel" autocomplete="off" required pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{8,}">
-            </div>
-            <div class="mistake-description" *ngIf="userPassword.invalid && (userPassword.dirty || userPassword.touched)">
-                <div *ngIf="userPassword.errors?.pattern">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" formControlName="password" autocomplete="off">
+            <div class="mistake-description" *ngIf="registrationForm.controls['password'].invalid && registrationForm.controls['password'].touched">
+                <div *ngIf="registrationForm.controls['password'].hasError('pattern') && registrationForm.controls['password'].dirty">
                     Пароль должен состоять из 8 символов<br>и иметь хотя бы одну латинскую букву и цифру
                 </div>
-                <div *ngIf="userPassword.errors?.required">
+                <div *ngIf="registrationForm.controls['password'].hasError('required')">
                     Необходимо ввести пароль
                 </div>
             </div>
         </div>
         <span class="error">{{errorText}}</span>
-        <button [disabled]="!form.valid" (click)="registerUser()">{{isUserAdmin?"Зарегистрировать":"Зарегистрироваться"}}</button>
+        <button (click)="registerUser()" [disabled]="registrationForm.invalid">Зарегистрироваться</button>
     </form>
 </div>

@@ -13,9 +13,57 @@ header {
   padding: 0 50px;
   cursor: pointer;
   z-index: 1;
+
   @media (max-width: 425px) {
     width: calc(100vw - 40px);
     padding: 0 20px;
+  }
+
+  nav {
+    display: flex;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
+
+    ul {
+      list-style: none;
+      display: flex;
+      align-content: center;
+      justify-content: flex-end;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+
+      i {
+        padding-left: 5px;
+      }
+
+      .submenu {
+        background: @dark-background-color;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: flex-start;
+        align-items: flex-start;
+        z-index: 2;
+        right: 15px;
+        padding: 10px;
+        border-radius: 15px;
+        opacity: 0;
+        transform: scaleY(0);
+        transition: 0.3s ease;
+
+        li {
+          padding: 5px;
+        }
+      }
+
+      &>li:hover .submenu {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+    }
   }
 
   a {
@@ -34,7 +82,7 @@ header {
   }
 
   h1 {
-      display: flex;
+    display: flex;
     color: @light-text-color;
     letter-spacing: 5px;
     font-size: 43px;

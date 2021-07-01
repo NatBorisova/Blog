@@ -14,8 +14,10 @@
                 <option *ngFor="let user of users" [ngValue]="user.login" [selected]="user.login===authorLogin">{{user.login}}</option>
             </select>
         </div>
-        <button class="add" [routerLink]="[ '/addArticle' ]"></button>
-        <button class="update" (click)="getArticles()"></button>
+        <div>
+            <button class="add" [routerLink]="[ '/addArticle' ]"></button>
+            <button class="update" (click)="getArticles()"></button>
+        </div>
     </div>
     <div class="articles-container">
         <div *ngIf="articles.length>0; else noArticles">

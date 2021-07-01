@@ -1,13 +1,17 @@
-<div class="tabs_wrapper">
-    <input type="radio" name="tabs" id="users" (click)="changeTabName('users')" checked />
-    <label class="tab" for="users">Пользователи</label>
-    <input type="radio" name="tabs" id="articles" (click)="changeTabName('articles')" />
-    <label class="tab" for="articles">Статьи</label>
-    <input type="radio" name="tabs" id="sections" (click)="changeTabName('sections')" />
-    <label class="tab" for="sections">Разделы</label>
-    <span class="shape"></span>
-</div>
+<form [formGroup]="administrationForm" class="administration-group">
+    <div class="tabs_wrapper">
+        <input type="radio" value="users" formControlName="tabName" id="users" checked />
+        <label class="tab" for="users">Пользователи</label>
+        <input type="radio" value="articles" formControlName="tabName" id="articles" />
+        <label class="tab" for="articles">Статьи</label>
+        <input type="radio" value="sections" formControlName="tabName" id="sections" />
+        <label class="tab" for="sections">Разделы</label>
+        <span class="shape"></span>
+    </div>
 
-<user-table-app *ngIf="tabName==='users'"></user-table-app>
-<sections-table-app *ngIf="tabName==='sections'"></sections-table-app>
-<articles-table-app *ngIf="tabName==='articles'"></articles-table-app>
+    <span [ngSwitch]="administrationForm.value.tabName">
+        <user-table-app *ngSwitchCase="'users'"></user-table-app>
+        <sections-table-app *ngSwitchCase="'sections'"></sections-table-app>
+        <articles-table-app *ngSwitchCase="'articles'"></articles-table-app>
+    </span>
+</form>

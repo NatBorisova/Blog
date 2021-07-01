@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
     selector: "administration-form-app",
@@ -8,9 +9,11 @@ import { Component } from "@angular/core";
 
 export class AdministrationFormComponent {
 
-    tabName = "users";
+    administrationForm: FormGroup;
 
-    changeTabName(tabName: string): void {
-        this.tabName = tabName;
+    constructor(private fb: FormBuilder) {
+        this.administrationForm = this.fb.group({
+            tabName: "users"
+        });
     }
 }

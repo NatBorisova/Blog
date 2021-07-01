@@ -1,12 +1,12 @@
 <div class="login-form">
-    <form action="">
+    <form [formGroup]="loginForm">
         <div class="email">
             <label for="email">E-mail:</label>
-            <input type="text" name="email" id="email" [(ngModel)]="email" autocomplete="off">
+            <input type="text" id="email" formControlName="email" autocomplete="off">
         </div>
         <div class="password">
             <label for="password">Пароль:</label>
-            <input type="password" name="password" id="password" [(ngModel)]="password" autocomplete="off">
+            <input type="password" id="password" formControlName="password" autocomplete="off">
         </div>
         <span class="error">{{errorText}}</span>
         <button (click)="loginUser()">Войти</button>

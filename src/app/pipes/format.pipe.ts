@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from "@angular/core";
     name: "formatToDate"
 })
 export class FormatToDatePipe implements PipeTransform {
-    transform(value: string, args?: any): string {
+    transform(value: string): string {
         return value ? new Date(value).toLocaleString("ru", {
             year: "numeric",
             month: "long",

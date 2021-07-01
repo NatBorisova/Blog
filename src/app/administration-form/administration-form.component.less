@@ -14,7 +14,7 @@
     border-radius: 15px;
     font-size: 1.7rem;
     font-weight: 400;
-    width: 120px;
+    width: calc(100% / 3);
     height: 40px;
     display: flex;
     align-items: center;
@@ -32,7 +32,7 @@
   }
 
   .shape {
-    width: 120px;
+    width: calc(100% / 3);
     height: 40px;
     background-image: linear-gradient(to bottom, @light-background-color, @dark-background-color);
     border-radius: 15px;
@@ -57,7 +57,7 @@
 
   #articles:checked {
     ~.shape {
-      left: 135px;
+      left: calc(100% / 3);
     }
 
     ~.tab[for="articles"] {
@@ -68,7 +68,7 @@
 
   #sections:checked {
     ~.shape {
-      left: 259px;
+      left: calc(100% / 3 * 2 - 10px);
     }
 
     ~.tab[for="sections"] {

@@ -1,4 +1,5 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin, Subject } from "rxjs";
 import { mergeMap, takeUntil } from "rxjs/operators";
@@ -11,17 +12,25 @@ import { UserService } from "../services/user.service";
     styleUrls: ["./login-form.component.less"]
 })
 
-export class LoginFormComponent implements OnDestroy {
+export class LoginFormComponent implements OnInit, OnDestroy {
 
-    email: string = "";
-    password: string = "";
     errorText: string = "";
+    loginForm: FormGroup;
     private _onDestroy: Subject<void> = new Subject<void>();
 
-    constructor(private authenticationService: AuthenticationService, private userService: UserService, private router: Router) { }
+    constructor(private fb: FormBuilder, private authenticationService: AuthenticationService, private userService: UserService, private router: Router) {
+        this.loginForm = this.fb.group({});
+    }
+
+    ngOnInit(): void {
+        this.loginForm = this.fb.group({
+            email: [""],
+            password: [""],
+        });
+    }
 
     loginUser(): void {
-        this.authenticationService.login(this.email, this.password).pipe(
+        this.authenticationService.login(this.loginForm.get("email")?.value, this.loginForm.get("password")?.value).pipe(
             mergeMap((user: any) => {
                 const newUser = this.userService.createUser(user.login, user.email, new Date(user.lastLogin).toLocaleString("ru", { year: "2-digit", month: "2-digit", day: "2-digit", timeZone: "UTC", hour: "numeric", minute: "numeric", second: "numeric" }), user.userStatus, user.objectId);
                 this.userService.user.next(newUser);
