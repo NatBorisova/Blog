@@ -1,7 +1,8 @@
+import { IUser } from './../interfaces/IUser';
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { forkJoin, Subject } from "rxjs";
-import { mergeMap, takeUntil } from "rxjs/operators";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import { IArticle } from "../interfaces/IArticle";
 import { ArticlesService } from "../services/articles.service";
 import { SectionService } from "../services/sections.service";
@@ -26,23 +27,25 @@ export class ArticleComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.activatedRoute.queryParams.pipe(
-            mergeMap(data => {
-                this.article = JSON.parse(data.article);
-                return forkJoin([this.userService.user, this.userService.isUserAdmin]);
-            }),
-            takeUntil(this._onDestroy),
-        ).subscribe(result => {
-            if (this.article.canComment) {
-                if (this.article.canComment.find(user => user.objectId === result[0].objectId)) {
-                    this.canUserComment = true;
+
+        this.activatedRoute.queryParams
+            .pipe(takeUntil(this._onDestroy))
+            .subscribe(data => this.article = JSON.parse(data.article));
+        this.userService.user
+            .pipe(takeUntil(this._onDestroy))
+            .subscribe((v: IUser) => {
+                if (this.article.canComment) {
+                    if (this.article.canComment.find(user => user.objectId === v.objectId)) {
+                        this.canUserComment = true;
+                    }
                 }
-            }
-            if (this.article.author.objectId === result[0].objectId) {
-                this.isUserAuthor = true;
-            }
-            this.isUserAdmin = result[1];
-        });
+                if (this.article.author.objectId === v.objectId) {
+                    this.isUserAuthor = true;
+                }
+            });
+        this.userService.isUserAdmin
+            .pipe(takeUntil(this._onDestroy))
+            .subscribe(v => this.isUserAdmin = v);
     }
 
     deleteArticle(): void {
@@ -52,7 +55,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 () => {
                     this.route.navigate(["/"]);
                 },
-                (e) => { console.log(e); },
+                (e) => { },
             );
     }
 
@@ -63,7 +66,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 () => {
                     this.article.isDisabled = false;
                 },
-                (e) => { console.log(e); },
+                (e) => { },
             );
     }
 

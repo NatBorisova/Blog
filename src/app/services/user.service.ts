@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, forkJoin, Observable, throwError } from "rxjs";
 import { map, mergeMap } from "rxjs/operators";
 import { IUser } from "../interfaces/IUser";
+import { APPLICATION_ID, CLOUDCODE_API_KEY, REST_API_KEY } from "./constants";
 
 @Injectable()
 export class UserService {
@@ -43,11 +44,11 @@ export class UserService {
     }
 
     getUser(): Observable<Object> {
-        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/users/${this.user.value.objectId}`);
+        return this.httpClient.get(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/data/users/${this.user.value.objectId}`);
     }
 
     getAllUsers(): Observable<IUser[]> {
-        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/users`)
+        return this.httpClient.get(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/data/users`)
             .pipe(map((data: any) => {
                 return data.map((user: IUser): IUser => {
                     return this.createUser(user.login, user.email, user.lastLogin, user.userStatus, user.objectId);
@@ -56,19 +57,19 @@ export class UserService {
     }
 
     deleteUser(objectId: string): Observable<Object> {
-        return this.httpClient.delete(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/users/${objectId}`);
+        return this.httpClient.delete(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/data/users/${objectId}`);
     }
 
     isUserTokenValid(token: string): Observable<Object> {
-        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/users/isvalidusertoken/${token}`);
+        return this.httpClient.get(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/users/isvalidusertoken/${token}`);
     }
 
     changeUserStatus(objectId: string, status: string): Observable<Object> {
-        return this.httpClient.put(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/024EF173-F6A1-4486-A86F-BFF7F4A7A72D/users/${objectId}/status`, { "userStatus": status });
+        return this.httpClient.put(`https://eu-api.backendless.com/${APPLICATION_ID}/${CLOUDCODE_API_KEY}/users/${objectId}/status`, { "userStatus": status });
     }
 
     getUserRole(token: string): Observable<Object> {
-        return this.httpClient.get("https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/users/userroles", {
+        return this.httpClient.get(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/users/userroles`, {
             headers: new HttpHeaders().set("user-token", token),
         });
     }

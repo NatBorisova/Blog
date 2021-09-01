@@ -26,7 +26,7 @@ export class SectionsTableComponent implements OnInit, OnDestroy {
         this.sectionService.addNewSection(this.sectionName)
             .pipe(takeUntil(this._onDestroy))
             .subscribe(
-                () => this.updateSections(),
+                () => {this.updateSections(); this.sectionName = "";},
                 e => console.log(e));
     }
 

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { ISection } from "../interfaces/ISection";
+import { APPLICATION_ID, REST_API_KEY } from "./constants";
 
 @Injectable({ providedIn: "root" })
 export class SectionService {
@@ -18,7 +19,7 @@ export class SectionService {
     }
 
     getAllSections(): Observable<ISection[]> {
-        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/sections`)
+        return this.httpClient.get(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/data/sections`)
             .pipe(map((data: any) => {
                 return data.map((section: ISection): ISection => {
                     return this.createSection(section.name, section.isApproved, section.objectId);
@@ -27,10 +28,10 @@ export class SectionService {
     }
 
     approveSection(objectId: string): Observable<Object> {
-        return this.httpClient.put(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/sections/${objectId}`, { "isApproved": true });
+        return this.httpClient.put(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/data/sections/${objectId}`, { "isApproved": true });
     }
 
     addNewSection(name: string): Observable<Object> {
-        return this.httpClient.post("https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/sections", `{"name":"${name}"}`);
+        return this.httpClient.post(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/data/sections`, `{"name":"${name}"}`);
     }
 }

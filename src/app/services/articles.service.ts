@@ -8,6 +8,7 @@ import { ISection } from "../interfaces/ISection";
 import { IUser } from "../interfaces/IUser";
 import { SectionService } from "./sections.service";
 import { UserService } from "./user.service";
+import { APPLICATION_ID, REST_API_KEY } from "./constants";
 
 @Injectable({ providedIn: "root" })
 export class ArticlesService {
@@ -49,7 +50,7 @@ export class ArticlesService {
     }
 
     getAllArticles(authorLogin: string = "", sectionName: string = ""): Observable<IArticle[]> {
-        return this.httpClient.get(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles?loadRelations=section,author,canComment&where=title%21%3D%27%27${authorLogin ? `%20AND%20author.login%3D%27${authorLogin}%27` : ""}${sectionName ? `%20AND%20section.name%3D%27${sectionName}%27` : ""}&sortBy=created`)
+        return this.httpClient.get(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/data/articles?loadRelations=section,author,canComment&where=title%21%3D%27%27${authorLogin ? `%20AND%20author.login%3D%27${authorLogin}%27` : ""}${sectionName ? `%20AND%20section.name%3D%27${sectionName}%27` : ""}&sortBy=created`)
             .pipe(map((data: any) => {
                 return data.map((article: IArticle): IArticle => {
                     return this.createArticle(article.created, article.title, article.text,
@@ -60,7 +61,7 @@ export class ArticlesService {
     }
 
     getAllAvailableArticles(userLogin: string, authorLogin: string = "", sectionName: string = ""): Observable<IArticle[]> {
-        let url = `https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles?loadRelations=section,author,canComment,canWatch&where=isDisabled%3Dfalse%20AND%20canWatch.login%3D%27${userLogin}%27`;
+        let url = `https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/data/articles?loadRelations=section,author,canComment,canWatch&where=isDisabled%3Dfalse%20AND%20canWatch.login%3D%27${userLogin}%27`;
         if (authorLogin) {
             if (authorLogin === userLogin) {
                 url = url.replace("isDisabled%3Dfalse%20AND%20", "");
@@ -82,14 +83,14 @@ export class ArticlesService {
     }
 
     addArticle(article: string): Observable<Object> {
-        return this.httpClient.put("https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles/deep-save", article);
+        return this.httpClient.put(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/data/articles/deep-save`, article);
     }
 
     deleteArticle(objectId: string): Observable<Object> {
-        return this.httpClient.delete(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles/${objectId}`);
+        return this.httpClient.delete(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/data/articles/${objectId}`);
     }
 
     changeStatus(objectId: string, isDisabled: boolean): Observable<Object> {
-        return this.httpClient.put(`https://eu-api.backendless.com/ED2D3A22-02FB-DC2E-FF01-71AED8207D00/451F3C70-C9DA-49E9-9A4E-A934A5037580/data/articles/${objectId}`, { "isDisabled": isDisabled });
+        return this.httpClient.put(`https://eu-api.backendless.com/${APPLICATION_ID}/${REST_API_KEY}/data/articles/${objectId}`, { "isDisabled": isDisabled });
     }
 }
